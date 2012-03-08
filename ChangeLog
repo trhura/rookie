@@ -1,0 +1,27 @@
+0.2.6
+------------------
+    * Fix Dropzone Movement
+    * Added Notification support
+
+
+0.2.5 (Fri 25 Dec)
+------------------
+    * Enchane download dialog, now can specify backends, category, start downloading ....
+    * Enhance category dialog, now can specify default backend
+    * Enhance prefence dialog, now can specify whether to start new downloads automatically
+    * Can set download category manually, without using pattern
+    * More Code Cleanup
+
+0.2.1 (Fri 24 Dec)
+------------------
+    * Added libsoup backend
+    * Fix & cleanup gio backend (outstanding stream operation bug)
+    * Enhance GUI
+    * Fixes several bugs, & Code Cleanup
+
+0.1.1 (Wed 08 Dec)
+------------------
+    * Added Bottom Pane
+    * Added Preference Dialog
+    * Fixes several bugs, & Code Cleanup
+

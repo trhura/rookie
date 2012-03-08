@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkVBox" id="dialog-content">
+    <property name="width_request">450</property>
+    <property name="visible">True</property>
+    <property name="border_width">5</property>
+    <child>
+      <object class="GtkTable" id="main-content">
+        <property name="visible">True</property>
+        <property name="n_rows">2</property>
+        <property name="n_columns">4</property>
+        <property name="column_spacing">8</property>
+        <property name="row_spacing">8</property>
+        <child>
+          <object class="GtkLabel" id="url-label">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_URL Addr:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">url-entry</property>
+          </object>
+          <packing>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="save-as-label">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_Save as:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">save-as</property>
+          </object>
+          <packing>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="url-entry">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="invisible_char">•</property>
+            <property name="activates_default">True</property>
+            <property name="primary_icon_stock">gtk-go-down</property>
+            <property name="secondary_icon_activatable">True</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">4</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkFileChooserButton" id="save-to">
+            <property name="visible">True</property>
+            <property name="action">select-folder</property>
+            <property name="show_hidden">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">3</property>
+            <property name="right_attach">4</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="save-to-label">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_to:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">save-to</property>
+          </object>
+          <packing>
+            <property name="left_attach">2</property>
+            <property name="right_attach">3</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="save-as">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="invisible_char">•</property>
+            <property name="activates_default">True</property>
+            <property name="primary_icon_stock">gtk-file</property>
+            <property name="secondary_icon_activatable">True</property>
+            <property name="primary_icon_sensitive">True</property>
+            <property name="secondary_icon_sensitive">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+      </object>
+      <packing>
+        <property name="padding">5</property>
+        <property name="position">0</property>
+      </packing>
+    </child>
+  </object>
+  <object class="GtkListStore" id="finish-action-list">
+    <columns>
+      <!-- column-name display -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">Do nothing</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Open downloaded file</col>
+      </row>
+      <row>
+        <col id="0" translatable="yes">Open containing folder</col>
+      </row>
+    </data>
+  </object>
+  <object class="GtkVBox" id="more-content">
+    <property name="visible">True</property>
+    <property name="spacing">5</property>
+    <child>
+      <object class="GtkTable" id="more-table">
+        <property name="visible">True</property>
+        <property name="n_rows">2</property>
+        <property name="n_columns">3</property>
+        <property name="column_spacing">8</property>
+        <property name="row_spacing">8</property>
+        <child>
+          <object class="GtkLabel" id="category-label">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_Category:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">url-entry</property>
+          </object>
+          <packing>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="backend-label">
+            <property name="visible">True</property>
+            <property name="xalign">0</property>
+            <property name="label" translatable="yes">_Backend:</property>
+            <property name="use_underline">True</property>
+            <property name="mnemonic_widget">save-as</property>
+          </object>
+          <packing>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkCheckButton" id="start-downloading">
+            <property name="label" translatable="yes">_Start Downlading</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">False</property>
+            <property name="use_underline">True</property>
+            <property name="draw_indicator">True</property>
+          </object>
+          <packing>
+            <property name="left_attach">2</property>
+            <property name="right_attach">3</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_options">GTK_FILL</property>
+            <property name="y_options">GTK_FILL</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkHSeparator" id="more-separator">
+        <property name="visible">True</property>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="padding">5</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkLabel" id="no-options">
+        <property name="visible">True</property>
+        <property name="label" translatable="yes">No option available for this backend.</property>
+        <property name="use_markup">True</property>
+      </object>
+      <packing>
+        <property name="position">2</property>
+      </packing>
+    </child>
+  </object>
+</interface>

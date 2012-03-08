@@ -1,0 +1,14 @@
+Source: rookie
+Section: gnome
+Priority: optional
+Maintainer: Thura Hlaing <trhura@gmail.com>
+Build-Depends: debhelper (>= 8.0.0), libgtk-3-0-dev, libsoup2.4-1-dev
+Standards-Version: 3.9.2
+Homepage: https://launchpad.net/rookie
+
+
+Package: rookie
+Architecture: any
+Depends: libgtk-3-0, libsoup2.4-1
+Description:  A download manager for GNOME
+ A download manager for GNOME 

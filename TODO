@@ -1,0 +1,16 @@
+
+Important
+
+ * Application Icon
+ * Display message in statusbar
+ * More Settings in Preference Dialog
+ * Enhance Bottom Pane
+ * Translation Support
+ * Testing, and Fix Bugs
+ * Cleanup Code
+
+Planned for future releases -
+
+ * Notifications
+ * Other Download Backends (curl, ...)
+ * Plugin Support using libpeas

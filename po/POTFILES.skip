@@ -1,0 +1,11 @@
+# List of source files containing translatable strings.
+
+data/AddDownloadDialog.ui
+data/CategoryDialog.ui
+data/rookie.desktop.in
+src/bottom-pane.c
+src/category-dialog.c
+src/download-dialog.c
+src/main-window.c
+src/preferences-dialog.c
+src/rookie-misc.c
