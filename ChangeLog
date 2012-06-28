@@ -1,8 +1,9 @@
-0.2.6
+0.2.6 (Thu 28 Jun)
 ------------------
     * Fix Dropzone Movement
     * Added Notification support
-
+    * Added application icon
+    * Added Debian Packaging
 
 0.2.5 (Fri 25 Dec)
 ------------------

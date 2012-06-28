@@ -9,6 +9,6 @@ Homepage: https://launchpad.net/rookie
 
 Package: rookie
 Architecture: any
-Depends: libgtk-3-0, libsoup2.4-1
+Depends: libgtk-3-0, libsoup2.4-1, 
 Description:  A download manager for GNOME
  A download manager for GNOME 

@@ -268,7 +268,7 @@ GDownloadable * g_downloadable_deserialize (GKeyFile * keys,
 
 	download->priv->remote_file = g_file_new_for_uri  (download->priv->url);
 	download->priv->local_file	= g_file_new_for_path (download->priv->local_path);
-	download->priv->log_file	= g_file_new_for_path (rookie_misc_get_log_file(download->priv->uid));
+	//download->priv->log_file	= g_file_new_for_path (rookie_misc_get_log_file(download->priv->uid));
 	download->priv->basename	= g_file_get_basename (download->priv->local_file);
 
 	GDownloadableStatus status = g_key_file_get_integer (keys, group, "status", NULL);
@@ -334,8 +334,8 @@ void g_downloadable_start (GDownloadable * object,
 	if (!object->priv->remote_file)
 		object->priv->remote_file = g_file_new_for_uri (object->priv->url);
 
-	if (!object->priv->log_file)
-		object->priv->log_file = g_file_new_for_path (rookie_misc_get_log_file(download->priv->uid));
+	//if (!object->priv->log_file)
+	//object->priv->log_file = g_file_new_for_path (rookie_misc_get_log_file(object->priv->uid));
 
 	(G_DOWNLOADABLE_GET_CLASS (object))->start (object, resume);
 }

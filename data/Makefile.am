@@ -1,9 +1,12 @@
+NULL=
+
 uidir = $(datadir)/rookie
 ui_DATA = \
     AppUI.ui    \
     AddDownloadDialog.ui    \
     CategoryDialog.ui\
-    categories.ini
+    categories.ini \
+    $(NULL)
 
 gsettings_SCHEMAS = net.launchpad.rookie.gschema.xml
 @INTLTOOL_XML_NOMERGE_RULE@
@@ -16,10 +19,16 @@ Utilities_DATA = $(Utilities_in_files:.desktop.in=.desktop)
 
 #man1_MANS = gcalctool.1
 
+#the application icon
+appicondir=$(datadir)/icons/hicolor/scalable/apps
+appicon_DATA=rookie.svg
+
 EXTRA_DIST = $(ui_DATA) net.lauchpad.rookie.gschema.xml rookie.desktop.in #$(man1_MANS)
 
 DISTCLEANFILES = \
-	rookie.desktop
-	
+	rookie.desktop \
+	$(NULL)
+
 MAINTAINERCLEANFILES = \
-	Makefile.in
+	Makefile.in \
+	$(NULL)

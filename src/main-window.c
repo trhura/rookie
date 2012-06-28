@@ -109,7 +109,7 @@ void create_main_window ()
 	handle_critical_error (error);
 	g_free (ui_path);
 
-	eggicon = gtk_status_icon_new_from_stock (GTK_STOCK_GO_DOWN);
+	eggicon = gtk_status_icon_new_from_icon_name ("rookie");
 	init_actions (action_group);
 
 	menubar = gtk_ui_manager_get_widget (ui_manager, "/menubar");
@@ -152,13 +152,8 @@ void create_main_window ()
 
 	gtk_window_add_accel_group (GTK_WINDOW(window), gtk_ui_manager_get_accel_group(ui_manager));
 	gtk_window_set_title (GTK_WINDOW(window), _("Rookie Download Manager"));
-
-	GtkIconTheme *icon_theme = gtk_icon_theme_get_default ();
-	GdkPixbuf *pixbuf = gtk_icon_theme_load_icon (icon_theme, GTK_STOCK_GO_DOWN, 16, 0, NULL);
-
-	if (pixbuf)
-		gtk_window_set_icon  (GTK_WINDOW(window), pixbuf);
-
+	gtk_window_set_icon_name (GTK_WINDOW(window), "rookie");
+	
 	gtk_box_pack_start (GTK_BOX(mainbox), menubar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX(mainbox), toolbar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX(mainbox), hpaned, TRUE, TRUE, 0);
@@ -166,7 +161,8 @@ void create_main_window ()
 
 	relayout_mainbox ();
 	gtk_container_add (GTK_CONTAINER(window), mainbox);
-	gtk_window_set_geometry_hints (GTK_WINDOW (window), window, NULL, GDK_HINT_USER_SIZE | GDK_HINT_USER_POS | GDK_HINT_POS);
+	gtk_window_set_geometry_hints (GTK_WINDOW (window), window, NULL,
+								   GDK_HINT_USER_SIZE | GDK_HINT_USER_POS | GDK_HINT_POS);
 
 	gtk_window_resize (GTK_WINDOW(window),
 					   rookie_settings_get_window_width (),
@@ -656,7 +652,7 @@ static void on_about ()
 						   "comments", _("A download manager for Gnome"),
 						   "copyright", "Copyright © 2010-2011 Thura Hlaing",
 						   "license", license_trans,
-						   "logo-icon-name", GTK_STOCK_GO_DOWN,
+						   "logo-icon-name", "rookie",
 						   "wrap-license", TRUE,
 						   "version", PACKAGE_VERSION,
 						   "website", "https://launchpad.net/rookie",

@@ -73,8 +73,9 @@ am__nobase_list = $(am__nobase_strip_setup); \
 am__base_list = \
   sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
   sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__installdirs = "$(DESTDIR)$(Utilitiesdir)" "$(DESTDIR)$(uidir)"
-DATA = $(Utilities_DATA) $(ui_DATA)
+am__installdirs = "$(DESTDIR)$(Utilitiesdir)" \
+	"$(DESTDIR)$(appicondir)" "$(DESTDIR)$(uidir)"
+DATA = $(Utilities_DATA) $(appicon_DATA) $(ui_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ALL_LINGUAS = @ALL_LINGUAS@
@@ -222,12 +223,14 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+NULL = 
 uidir = $(datadir)/rookie
 ui_DATA = \
     AppUI.ui    \
     AddDownloadDialog.ui    \
     CategoryDialog.ui\
-    categories.ini
+    categories.ini \
+    $(NULL)
 
 gsettings_SCHEMAS = net.launchpad.rookie.gschema.xml
 Utilitiesdir = $(datadir)/applications
@@ -235,12 +238,21 @@ Utilities_in_files = rookie.desktop.in
 Utilities_DATA = $(Utilities_in_files:.desktop.in=.desktop)
 
 #man1_MANS = gcalctool.1
+
+#the application icon
+appicondir = $(datadir)/icons/hicolor/scalable/apps
+appicon_DATA = rookie.svg
+app_icons = \
+	rookie.svg 
+
 EXTRA_DIST = $(ui_DATA) net.lauchpad.rookie.gschema.xml rookie.desktop.in #$(man1_MANS)
 DISTCLEANFILES = \
-	rookie.desktop
+	rookie.desktop \
+	$(NULL)
 
 MAINTAINERCLEANFILES = \
-	Makefile.in
+	Makefile.in \
+	$(NULL)
 
 all: all-am
 
@@ -301,6 +313,26 @@ uninstall-UtilitiesDATA:
 	test -n "$$files" || exit 0; \
 	echo " ( cd '$(DESTDIR)$(Utilitiesdir)' && rm -f" $$files ")"; \
 	cd "$(DESTDIR)$(Utilitiesdir)" && rm -f $$files
+install-appiconDATA: $(appicon_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(appicondir)" || $(MKDIR_P) "$(DESTDIR)$(appicondir)"
+	@list='$(appicon_DATA)'; test -n "$(appicondir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(appicondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(appicondir)" || exit $$?; \
+	done
+
+uninstall-appiconDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(appicon_DATA)'; test -n "$(appicondir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(appicondir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(appicondir)" && rm -f $$files
 install-uiDATA: $(ui_DATA)
 	@$(NORMAL_INSTALL)
 	test -z "$(uidir)" || $(MKDIR_P) "$(DESTDIR)$(uidir)"
@@ -362,7 +394,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(Utilitiesdir)" "$(DESTDIR)$(uidir)"; do \
+	for dir in "$(DESTDIR)$(Utilitiesdir)" "$(DESTDIR)$(appicondir)" "$(DESTDIR)$(uidir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -412,7 +444,8 @@ info: info-am
 
 info-am:
 
-install-data-am: install-UtilitiesDATA install-uiDATA
+install-data-am: install-UtilitiesDATA install-appiconDATA \
+	install-data-local install-uiDATA
 
 install-dvi: install-dvi-am
 
@@ -456,26 +489,36 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-UtilitiesDATA uninstall-uiDATA
+uninstall-am: uninstall-UtilitiesDATA uninstall-appiconDATA \
+	uninstall-uiDATA
 
 .MAKE: install-am install-strip
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	distclean distclean-generic distclean-libtool distdir dvi \
 	dvi-am html html-am info info-am install install-UtilitiesDATA \
-	install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip install-uiDATA installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-generic mostlyclean-libtool pdf pdf-am \
-	ps ps-am uninstall uninstall-UtilitiesDATA uninstall-am \
+	install-am install-appiconDATA install-data install-data-am \
+	install-data-local install-dvi install-dvi-am install-exec \
+	install-exec-am install-html install-html-am install-info \
+	install-info-am install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip install-uiDATA \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-generic \
+	mostlyclean-libtool pdf pdf-am ps ps-am uninstall \
+	uninstall-UtilitiesDATA uninstall-am uninstall-appiconDATA \
 	uninstall-uiDATA
 
 @INTLTOOL_XML_NOMERGE_RULE@
 @GSETTINGS_RULES@
 @INTLTOOL_DESKTOP_RULE@
+
+install-icons:
+	for icon in $(app_icons); do \
+		mkdir -p $(DESTDIR)$(pkgdatadir)/icons/; \
+		$(INSTALL_DATA) $(srcdir)/$$icon $(DESTDIR)$(pkgdatadir)/icons/; \
+	done
+
+install-data-local: install-icons
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
