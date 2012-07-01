@@ -45,8 +45,6 @@ rookie_SOURCES =		\
 	sidepane.h		\
 	bottom-pane.c		\
 	bottom-pane.h		\
-	dropzone.c		\
-	dropzone.h		\
 	download-dialog.c	\
 	download-dialog.h	\
 	category-dialog.c	\

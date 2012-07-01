@@ -292,9 +292,7 @@ rookie_misc_quit ()
 	g_object_unref (g_download_list_controller_get ());
 	g_object_unref (g_download_list_get ());
 
-	dropzone_save_state ();
 	main_window_save_state ();
-
 	categories_finalize ();
 	rookie_settings_finalize ();
 

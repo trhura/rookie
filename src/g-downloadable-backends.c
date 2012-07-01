@@ -67,7 +67,6 @@ GDownloadableBackend * g_downloadable_backends_get_default ()
 
 GDownloadableBackend * g_downloadable_backends_by_name (const gchar* name)
 {
-	rookie_debug ("%s name", name);
 	if (g_strcmp0 (GIO_NAME, name) == 0)
 		return gio_backend;
 

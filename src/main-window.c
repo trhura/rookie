@@ -27,7 +27,6 @@
 #include "rookie-misc.h"
 #include "g-download-list-controller.h"
 #include "sidepane.h"
-#include "dropzone.h"
 #include "bottom-pane.h"
 #include "main-window.h"
 #include "preferences-dialog.h"
@@ -53,7 +52,6 @@ static void on_report ();
 static void on_about ();
 static void on_properties ();
 static void on_sidepane ();
-static void on_dropzone ();
 static void on_bottompane ();
 static void on_toolbar ();
 static void on_statusbar ();
@@ -75,7 +73,6 @@ static GtkWidget * toolbar;
 static GtkWidget * statbar;
 static GtkWidget * sidepane;
 static GtkWidget * bottompane;
-static GtkWidget * dropzone;
 
 static GtkWidget * window;
 static GtkWidget * mainbox;
@@ -169,11 +166,8 @@ void create_main_window ()
 					   rookie_settings_get_window_width (),
 					   rookie_settings_get_window_height());
 
-	dropzone	= create_dropzone ();
-
 	rookie_settings_bind (ROOKIE_TOOLBAR_VISIBLE, toolbar, "visible");
 	rookie_settings_bind (ROOKIE_STATUSBAR_VISIBLE, statbar, "visible");
-	rookie_settings_bind (ROOKIE_DROPZONE_VISIBLE, dropzone, "visible");
 
 	/* Signals */
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW(view));
@@ -362,12 +356,6 @@ GtkActionGroup * create_action_group ()
 		rookie_settings_get_visible (ROOKIE_STATUSBAR_VISIBLE)
 	};
 
-	GtkToggleActionEntry a_dropzone = {
-		"a_dropzone", NULL, _("_Drop Zone"),
-		NULL, _("Show or hide drop zone"), G_CALLBACK(on_dropzone),
-		rookie_settings_get_visible (ROOKIE_DROPZONE_VISIBLE)
-	};
-
 	GtkToggleActionEntry a_sidepane = {
 		"a_sidepane", NULL, _("_Side Pane"),
 		NULL, _("Show or hide side pane"), G_CALLBACK(on_sidepane),
@@ -446,7 +434,6 @@ GtkActionGroup * create_action_group ()
 	GtkToggleActionEntry toggle_actions[] = {
 		a_toolbar,
 		a_statusbar,
-		a_dropzone,
 		a_sidepane,
 		a_bottompane
 	};
@@ -702,13 +689,6 @@ void on_sidepane ()
 	gboolean visible  = rookie_settings_get_visible (ROOKIE_SIDEPANE_VISIBLE);
 	rookie_settings_set_visible (ROOKIE_SIDEPANE_VISIBLE, !visible);
 	relayout_mainbox ();
-}
-
-static void on_dropzone ()
-{
-	dropzone_save_state ();
-	gboolean visible  = rookie_settings_get_visible (ROOKIE_DROPZONE_VISIBLE);
-	rookie_settings_set_visible (ROOKIE_DROPZONE_VISIBLE, !visible);
 }
 
 static void on_bottompane ()

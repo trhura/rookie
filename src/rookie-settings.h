@@ -2,17 +2,17 @@
 /*
  * rookie-settings.c
  * Copyright (C) Thura Hlaing 2010 <trhura@gmail.com>
- * 
+ *
  * rookie is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * rookie is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -23,23 +23,18 @@
 
 typedef enum {
   ROOKIE_WINDOW_WIDTH,
-  ROOKIE_WINDOW_HEIGHT, 
-  ROOKIE_DROPZONE_WIDTH,
-  ROOKIE_DROPZONE_HEIGHT,
-  ROOKIE_DROPZONE_XPOS,
-  ROOKIE_DROPZONE_YPOS,
+  ROOKIE_WINDOW_HEIGHT,
   ROOKIE_SIDEPANE_WIDTH,
   ROOKIE_BOTTOMPANE_WIDTH,
 
   ROOKIE_TOOLBAR_VISIBLE,
   ROOKIE_SIDEPANE_VISIBLE,
-  ROOKIE_DROPZONE_VISIBLE,
   ROOKIE_STATUSBAR_VISIBLE,
   ROOKIE_BOTTOMPANE_VISIBLE,
 
   ROOKIE_START_MINIMIZED,
   ROOKIE_START_NEW_DOWNLOADS
-  
+
 } RookieSetting;
 
 void		 rookie_settings_init ();
@@ -50,7 +45,7 @@ void		 rookie_settings_set  (RookieSetting setting, GVariant * value);
 gint		 rookie_settings_get_window_width ();
 void		 rookie_settings_set_window_width (gint width);
 gint		 rookie_settings_get_window_height ();
-void		 rookie_settings_set_window_height (gint height); 
+void		 rookie_settings_set_window_height (gint height);
 gint		 rookie_settings_get_dropzone_width ();
 void		 rookie_settings_set_dropzone_width (gint width);
 gint		 rookie_settings_get_dropzone_height ();

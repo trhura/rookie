@@ -1,9 +1,9 @@
 <ui>
-  <menubar name="menubar">       
+  <menubar name="menubar">
     <menu name="file_menu" action="a_file_menu">
       <menuitem name="m_new" action="a_new" />
       <menuitem name="m_quit" action="a_quit" />
-    </menu>        
+    </menu>
     <menu name="edit_menu" action="a_edit_menu">
       <menuitem name="m_start" action="a_start" />
       <menuitem name="m_pause" action="a_pause" />
@@ -13,24 +13,23 @@
       <menuitem name="m_open_location" action="a_open_location" />
       <menuitem name="m_delete" action="a_delete" />
       <separator/>
-      <menuitem name="m_preferences" action="a_preferences" /> 
-    </menu>        
+      <menuitem name="m_preferences" action="a_preferences" />
+    </menu>
     <menu name="viewmenu" action="a_view_menu">
       <menuitem name="m_toolbar" action="a_toolbar" />
       <menuitem name="m_statusbar" action="a_statusbar" />
-      <menuitem name="m_dropzone" action="a_dropzone" />
       <menuitem name="m_sidepae" action="a_sidepane" />
       <menuitem name="m_bottompane" action="a_bottompane" />
     </menu>
     <menu name="toolmenu" action="a_tool_menu">
-      <menuitem name="m_category" action="a_category" /> 
-    </menu> 
+      <menuitem name="m_category" action="a_category" />
+    </menu>
     <menu name="helpmenu" action="a_help_menu">
       <menuitem name="m_help" action="a_help" />
-      <separator/>            
+      <separator/>
       <menuitem name="m_translate" action="a_translate" />
       <menuitem name="m_repot" action="a_report" />
-      <separator/>                       
+      <separator/>
       <menuitem name="m_about" action="a_about" />
     </menu>
   </menubar>
@@ -50,14 +49,13 @@
     <separator/>
     <menuitem name="p_open" action="a_open" />
     <menuitem name="p_open_location" action="a_open_location" />
-    <menuitem name="p_delete" action="a_delete" /> 
+    <menuitem name="p_delete" action="a_delete" />
   </popup>
     <popup name="s_popup">
     <menuitem name="p_add" action="a_add" />
-    <separator/> 
-    <menuitem name="m_dropzone" action="a_dropzone" />
     <separator/>
-    <menuitem name="m_preferences" action="a_preferences"/> 
+    <separator/>
+    <menuitem name="m_preferences" action="a_preferences"/>
     <menuitem name="p_about" action="a_about" />
     <separator/>
     <menuitem name="p_quit" action="a_quit" />

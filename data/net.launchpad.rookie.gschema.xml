@@ -22,10 +22,6 @@
       <default>true</default>
       <description>Whether to show the bottonpane.</description>
     </key>
-    <key name="show-dropzone" type="b">
-      <default>false</default>
-      <description>Whether to show the dropzone.</description>
-    </key> 
     <key name="start-minimized" type="b">
       <default>true</default>
       <description>Hide the main window when the application starts.</description>
@@ -33,24 +29,16 @@
     <key name="start-new-downloads" type="b">
       <default>true</default>
       <description>Whether to start downloads automatically when they are added.</description>
-    </key> 
+    </key>
   </schema>
   <schema id="net.launchpad.rookie.state" path="/apps/rookie/state/" gettext-domain="rookie">
     <key name="window-width" type="i">
       <default>700</default>
       <description>Width of the main window.</description>
-    </key> 
+    </key>
     <key name="window-height" type="i">
       <default>450</default>
       <description>Height of the main window.</description>
-    </key>
-    <key name="dropzone-width" type="i">
-      <default>100</default>
-      <description>Width of the drop zone.</description>
-    </key> 
-    <key name="dropzone-height" type="i">
-      <default>100</default>
-      <description>Height of the drop zone.</description>
     </key>
     <key name="window-xpos" type="i">
       <default>100</default>
@@ -59,14 +47,6 @@
     <key name="window-ypos" type="i">
       <default>100</default>
       <description>y pos of the main window.</description>
-    </key>
-    <key name="dropzone-xpos" type="i">
-      <default>100</default>
-      <description>x pos of the drop zone.</description>
-    </key> 
-    <key name="dropzone-ypos" type="i">
-      <default>100</default>
-      <description>y pos of drop zone.</description>
     </key>
     <key name="sidebar-width" type="i">
       <default>200</default>

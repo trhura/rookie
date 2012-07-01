@@ -54,7 +54,7 @@ am_rookie_OBJECTS = main.$(OBJEXT) rookie-app.$(OBJEXT) \
 	gio-download.$(OBJEXT) g-download-list.$(OBJEXT) \
 	g-download-list-controller.$(OBJEXT) \
 	g-downloadable-backends.$(OBJEXT) main-window.$(OBJEXT) \
-	sidepane.$(OBJEXT) bottom-pane.$(OBJEXT) dropzone.$(OBJEXT) \
+	sidepane.$(OBJEXT) bottom-pane.$(OBJEXT) \
 	download-dialog.$(OBJEXT) category-dialog.$(OBJEXT) \
 	preferences-dialog.$(OBJEXT) soup-download.$(OBJEXT)
 rookie_OBJECTS = $(am_rookie_OBJECTS)
@@ -284,8 +284,6 @@ rookie_SOURCES = \
 	sidepane.h		\
 	bottom-pane.c		\
 	bottom-pane.h		\
-	dropzone.c		\
-	dropzone.h		\
 	download-dialog.c	\
 	download-dialog.h	\
 	category-dialog.c	\
@@ -390,7 +388,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/categories.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/category-dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/download-dialog.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dropzone.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/g-download-list-controller.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/g-download-list.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/g-downloadable-backends.Po@am__quote@
