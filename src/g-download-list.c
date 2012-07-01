@@ -57,7 +57,8 @@ static void
 g_download_list_init (GDownloadList *object)
 {
 	object->priv = G_DOWNLOAD_LIST_PRIVATE (object);
-	object->priv->table = g_hash_table_new (g_direct_hash, g_direct_equal);
+	object->priv->table = g_hash_table_new (g_direct_hash,
+											g_direct_equal);
 	g_download_list_load_state (object);
 }
 
@@ -160,7 +161,7 @@ g_download_list_save_state (GDownloadList * object)
 		gchar * group = g_strdup_printf (GROUP_FORMAT, GPOINTER_TO_UINT(key),
 										 download->priv->backend->name);
 		g_downloadable_serialize (download, keys, group);
-		g_object_unref (download);
+		//g_object_unref (download);
 		g_free (group);
 	}
 

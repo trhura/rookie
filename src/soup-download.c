@@ -2,17 +2,17 @@
 /*
  * soup-download.c
  * Copyright (C) Thura Hlaing 2010 <trhura@gmail.com>
- * 
+ *
  * soup-download.c is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * soup-download.c is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -43,15 +43,15 @@ static void	soup_download_deserialize (GDownloadable * download, GKeyFile * keys
 
 static void on_download_progressed (SoupMessage *message, SoupBuffer *buffer, gpointer user_data);
 static void on_got_headers (SoupMessage *message, gpointer user_data);
-static void on_download_finished (SoupMessage *message, gpointer user_data); 
+static void on_download_finished (SoupMessage *message, gpointer user_data);
 static void write_output_file (gpointer data);
-	
+
 static void
 soup_download_init (SoupDownload *object)
 {
 	object->priv = SOUP_DOWNLOAD_PRIVATE (object);
 	object->priv->session = soup_session_async_new ();
-	object->priv->need_to_write  = FALSE; 
+	object->priv->need_to_write  = FALSE;
 }
 
 static void
@@ -64,7 +64,7 @@ soup_download_finalize (GObject *object)
 		rookie_debug ("writing file ...");
 		write_output_file (download);
 	}
-	
+
 	g_object_unref (SOUP_DOWNLOAD (object)->priv->session);
 	G_OBJECT_CLASS (soup_download_parent_class)->finalize (object);
 }
@@ -81,12 +81,12 @@ soup_download_class_init (SoupDownloadClass *klass)
 	parent_class->pause = soup_download_pause;
 	parent_class->serialize = soup_download_serialize;
 	parent_class->deserialize = soup_download_deserialize;
-	object_class->finalize = soup_download_finalize; 
-} 
+	object_class->finalize = soup_download_finalize;
+}
 
 static void soup_message_connect_signals (SoupMessage *message, SoupDownload *download)
 {
-	g_signal_connect (message, "got-chunk", G_CALLBACK(on_download_progressed), download); 
+	g_signal_connect (message, "got-chunk", G_CALLBACK(on_download_progressed), download);
 	g_signal_connect (message, "got-body",  G_CALLBACK(on_download_finished), download);
 	g_signal_connect (message, "got-headers", G_CALLBACK(on_got_headers), download);
 }
@@ -107,7 +107,7 @@ static void soup_download_deserialize (GDownloadable * download, GKeyFile * keys
 
 static void soup_download_serialize (GDownloadable *download, GKeyFile *keys, const gchar *group)
 {
-		/* Nothing needs to be done */ 
+		/* Nothing needs to be done */
 }
 
 static void soup_download_pause (GDownloadable  *download)
@@ -131,7 +131,7 @@ static void soup_download_start (GDownloadable  *download, gboolean resume)
 			soup_download->priv->message  = soup_message_new ("GET", download->priv->url);
 			soup_message_connect_signals  (soup_download->priv->message, soup_download);
 		}
-		soup_session_queue_message	(soup_download->priv->session, soup_download->priv->message, NULL, NULL); 
+		soup_session_queue_message	(soup_download->priv->session, soup_download->priv->message, NULL, NULL);
 	}
 	g_downloadable_set_status (G_DOWNLOADABLE(download), G_DOWNLOADABLE_DOWNLOADING);
 }
@@ -147,13 +147,13 @@ static void on_got_headers (SoupMessage *message, gpointer user_data)
 	g_assert (download != NULL);
 
 	if (message->status_code != SOUP_STATUS_OK) {
-		g_printf ("status code = %d\n", message->status_code); 
+		rookie_debug ("status code = %d\n", message->status_code);
 	}
 
 	//	soup_message_headers_foreach (message->response_headers, foreach_header, NULL);
 	g_downloadable_set_status (download, G_DOWNLOADABLE_DOWNLOADING);
-	
-	if (download->priv->size == 0) 
+
+	if (download->priv->size == 0)
 		download->priv->size = soup_message_headers_get_content_length (message->response_headers);
 
 }
@@ -181,7 +181,7 @@ static void write_output_file (gpointer data)
 
 		SoupBuffer *buffer = soup_message_body_flatten (soup_download->priv->message->response_body);
 		g_output_stream_write (G_OUTPUT_STREAM (ostream), buffer->data, buffer->length, NULL, &error);
-		handle_error (error); 
+		handle_error (error);
 
 		g_output_stream_close (G_OUTPUT_STREAM (ostream), NULL, &error);
 		handle_error (error);
@@ -191,7 +191,7 @@ static void write_output_file (gpointer data)
 
 		soup_download->priv->need_to_write = FALSE;
 	}
-} 
+}
 
 static void on_download_finished (SoupMessage *message, gpointer user_data)
 {
@@ -200,4 +200,4 @@ static void on_download_finished (SoupMessage *message, gpointer user_data)
 
 	write_output_file (download);
 	g_downloadable_set_status (G_DOWNLOADABLE(download), G_DOWNLOADABLE_COMPLETED);
-} 
+}

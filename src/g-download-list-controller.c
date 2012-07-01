@@ -44,7 +44,7 @@ struct _GDownloadListControllerPrivate
 
 enum Columns {
 	DOWNLOAD_COLUMN, UID_COLUMN,
-	ICONNAME_COLUMN, PIXBUF_COLUMN,
+	ICONNAME_COLUMN, GICON_COLUMN,
 	FILENAME_COLUMN, PROGRESS_VALUE_COLUMN,
 	PROGRESS_TEXT_COLUMN, SIZE_COLUMN,
 	DOWNLOADED_COLUMN, SPEED_COLUMN,
@@ -74,7 +74,7 @@ g_download_list_controller_init (GDownloadListController *object)
 	object->priv->timer = g_timer_new ();
 
 	object->priv->model = gtk_list_store_new (TOTAL_COLUMNS, G_TYPE_POINTER,
-											  G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF,
+											  G_TYPE_INT, G_TYPE_STRING, G_TYPE_THEMED_ICON,
 											  G_TYPE_STRING, G_TYPE_INT, G_TYPE_STRING,
 											  G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 
@@ -120,8 +120,10 @@ GDownloadListController * g_download_list_controller_get ()
 			g_error ("Download List must be intialized before Download List Controller");
 
 		g_download_list_foreach ((GFunc)g_downloadable_connect_signals, NULL);
-		g_signal_connect (list, "download-added", G_CALLBACK(on_download_added), controller);
-		g_signal_connect (list, "download-removed", G_CALLBACK(on_download_removed), controller);
+		g_signal_connect (list, "download-added",
+						  G_CALLBACK(on_download_added), controller);
+		g_signal_connect (list, "download-removed",
+						  G_CALLBACK(on_download_removed), controller);
 
 		setup_tree_model (controller->priv->model);
 	}
@@ -136,7 +138,7 @@ static void setup_tree_view (GtkTreeView * view)
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	column   = gtk_tree_view_column_new_with_attributes ("", renderer,
-														 "pixbuf", PIXBUF_COLUMN, NULL);
+														 "gicon", GICON_COLUMN, NULL);
 	g_object_set (column, "sort-column-id", ICONNAME_COLUMN, "sort-indicator", TRUE, NULL);
 	gtk_tree_view_append_column (view, column);
 
@@ -185,13 +187,15 @@ static void setup_tree_view (GtkTreeView * view)
 	gtk_tree_view_set_rules_hint (view, TRUE);
 }
 
-static void setup_tree_model (GtkListStore *model)
+static void
+setup_tree_model (GtkListStore *model)
 {
 	gtk_list_store_clear (model);
 	g_download_list_foreach ((GFunc)g_download_list_controller_append_row, NULL);
 }
 
-static void g_download_list_controller_refresh_row (GtkTreeIter *iter)
+static void
+g_download_list_controller_refresh_row (GtkTreeIter *iter)
 {
 	if (iter == NULL)
 		return;
@@ -235,48 +239,28 @@ static void g_download_list_controller_refresh_row (GtkTreeIter *iter)
 	g_free (prev_progress_text);
 }
 
-GdkPixbuf* get_pixbuf_for_icon_name (const gchar * icon_name)
-{
-	GdkPixbuf * pixbuf = NULL;
-
-	if (icon_name == NULL)
-		return pixbuf;
-
-	GError *error = NULL;
-	GIcon  *icon = g_icon_new_for_string (icon_name, NULL);
-	GtkIconTheme *icon_theme = gtk_icon_theme_get_default ();
-	GtkIconInfo *icon_info = gtk_icon_theme_lookup_by_gicon (icon_theme, icon, ICON_SIZE, 0);
-
-	pixbuf = gtk_icon_info_load_icon (icon_info, &error);
-	gtk_icon_info_free (icon_info);
-	handle_error (error);
-
-	if (error) {
-		pixbuf = gtk_icon_theme_load_icon (icon_theme, GTK_STOCK_FILE, ICON_SIZE, 0, &error);
-		handle_error (error);
-	}
-
-	return pixbuf;
-}
-
-static void on_download_changed (GDownloadable * download, gpointer data)
+static void
+on_download_changed (GDownloadable * download, gpointer data)
 {
 	g_download_list_controller_refresh_row (g_downloadable_get_view_iter (download));
 }
 
-static void g_downloadable_connect_signals (GDownloadable *download, gpointer data)
+static void
+g_downloadable_connect_signals (GDownloadable *download, gpointer data)
 {
 	g_signal_connect (download, "download-progressed", G_CALLBACK (on_download_changed), data);
 	g_signal_connect (download, "status-changed", G_CALLBACK (on_download_changed), data);
 }
 
-static void on_download_added (GDownloadList *download_list, GDownloadable *download, gpointer data)
+static void
+on_download_added (GDownloadList *download_list, GDownloadable *download, gpointer data)
 {
 	g_downloadable_connect_signals (download, data);
 	g_download_list_controller_append_row (download, data);
 }
 
-static void on_download_removed (GDownloadList *download_list, GDownloadable *download, gpointer data)
+static void
+on_download_removed (GDownloadList *download_list, GDownloadable *download, gpointer data)
 {
 	GDownloadListController  *controller = G_DOWNLOAD_LIST_CONTROLLER (data);
 	GtkTreeIter *iter	= g_downloadable_get_view_iter (download);
@@ -286,7 +270,8 @@ static void on_download_removed (GDownloadList *download_list, GDownloadable *do
 	}
 }
 
-static void g_download_list_controller_append_row (GDownloadable *download, gpointer user_data)
+static void
+g_download_list_controller_append_row (GDownloadable *download, gpointer user_data)
 {
 	GDownloadListController  *controller = g_download_list_controller_get ();
 
@@ -320,12 +305,13 @@ static void g_download_list_controller_append_row (GDownloadable *download, gpoi
 						FILENAME_COLUMN, g_downloadable_get_basename (download),
 						ICONNAME_COLUMN, g_downloadable_get_icon_name(download),
 						DOWNLOADED_COLUMN, g_format_size_for_display (downloaded),
-						PIXBUF_COLUMN, get_pixbuf_for_icon_name (g_downloadable_get_icon_name(download)),
+						GICON_COLUMN, g_icon_new_for_string (g_downloadable_get_icon_name(download), NULL),
 						SPEED_COLUMN, format_speed_for_display (g_downloadable_get_speed (download)),
 						-1);
 }
 
-static gchar * format_speed_for_display (gint speed)
+static gchar*
+format_speed_for_display (gint speed)
 {
 	if (speed == 0)
 		return "-";
@@ -337,7 +323,9 @@ static gchar * format_speed_for_display (gint speed)
 	return r;
 }
 
-static gchar * format_status_for_display (GDownloadableStatus status, gint percent)
+static gchar*
+format_status_for_display (GDownloadableStatus status,
+						   gint percent)
 {
 	switch (status) {
 	case G_DOWNLOADABLE_COMPLETED:

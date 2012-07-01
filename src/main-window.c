@@ -153,7 +153,7 @@ void create_main_window ()
 	gtk_window_add_accel_group (GTK_WINDOW(window), gtk_ui_manager_get_accel_group(ui_manager));
 	gtk_window_set_title (GTK_WINDOW(window), _("Rookie Download Manager"));
 	gtk_window_set_icon_name (GTK_WINDOW(window), "rookie");
-	
+
 	gtk_box_pack_start (GTK_BOX(mainbox), menubar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX(mainbox), toolbar, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX(mainbox), hpaned, TRUE, TRUE, 0);
@@ -802,7 +802,7 @@ on_view_button_press (GtkWidget *widget,
 	return FALSE;
 }
 
-void main_window_save_state ()
+void	main_window_save_state ()
 {
 	if (!gtk_widget_get_visible (window))
 		return;

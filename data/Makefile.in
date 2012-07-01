@@ -242,9 +242,6 @@ Utilities_DATA = $(Utilities_in_files:.desktop.in=.desktop)
 #the application icon
 appicondir = $(datadir)/icons/hicolor/scalable/apps
 appicon_DATA = rookie.svg
-app_icons = \
-	rookie.svg 
-
 EXTRA_DIST = $(ui_DATA) net.lauchpad.rookie.gschema.xml rookie.desktop.in #$(man1_MANS)
 DISTCLEANFILES = \
 	rookie.desktop \
@@ -445,7 +442,7 @@ info: info-am
 info-am:
 
 install-data-am: install-UtilitiesDATA install-appiconDATA \
-	install-data-local install-uiDATA
+	install-uiDATA
 
 install-dvi: install-dvi-am
 
@@ -498,11 +495,11 @@ uninstall-am: uninstall-UtilitiesDATA uninstall-appiconDATA \
 	distclean distclean-generic distclean-libtool distdir dvi \
 	dvi-am html html-am info info-am install install-UtilitiesDATA \
 	install-am install-appiconDATA install-data install-data-am \
-	install-data-local install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip install-uiDATA \
-	installcheck installcheck-am installdirs maintainer-clean \
+	install-dvi install-dvi-am install-exec install-exec-am \
+	install-html install-html-am install-info install-info-am \
+	install-man install-pdf install-pdf-am install-ps \
+	install-ps-am install-strip install-uiDATA installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic \
 	mostlyclean-libtool pdf pdf-am ps ps-am uninstall \
 	uninstall-UtilitiesDATA uninstall-am uninstall-appiconDATA \
@@ -511,14 +508,6 @@ uninstall-am: uninstall-UtilitiesDATA uninstall-appiconDATA \
 @INTLTOOL_XML_NOMERGE_RULE@
 @GSETTINGS_RULES@
 @INTLTOOL_DESKTOP_RULE@
-
-install-icons:
-	for icon in $(app_icons); do \
-		mkdir -p $(DESTDIR)$(pkgdatadir)/icons/; \
-		$(INSTALL_DATA) $(srcdir)/$$icon $(DESTDIR)$(pkgdatadir)/icons/; \
-	done
-
-install-data-local: install-icons
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

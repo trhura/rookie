@@ -60,3 +60,6 @@ rookie_LDFLAGS = \
 	-Wl,--export-dynamic
 
 rookie_LDADD = $(ROOKIE_LIBS)
+
+check-syntax:
+	$(COMPILE) -o /dev/null -S ${CHK_SOURCES}

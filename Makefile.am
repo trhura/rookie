@@ -7,3 +7,6 @@ MAINTAINERCLEANFILES = \
 
 EXTRA_DIST = \
 	autogen.sh
+
+check-syntax:
+	$(COMPILE) -o /dev/null -S ${CHK_SOURCES}
