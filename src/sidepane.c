@@ -2,23 +2,25 @@
 /*
  * sidepane.c
  * Copyright (C) Thura Hlaing 2010 <trhura@gmail.com>
- * 
+ *
  * rookie is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * rookie is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "glib.h"
 #include "sidepane.h"
 #include "categories.h"
+#include "rookie-debug.h"
 #include "g-download-list.h"
 #include "g-download-list-controller.h"
 
@@ -33,7 +35,7 @@ enum {
 	CATEGORY_STOCK_COLUMN,
 	CATEGORY_TEXT_COLUMN,
 	CATEGORY_COLUMN,
-	
+
 	CATEGORY_TOTAL_COLUMNS
 };
 
@@ -45,16 +47,14 @@ static GtkListStore * categorymodel;
 static void create_status_view ();
 static void create_category_view ();
 
-static void append_category (Category * category, gpointer data);
+static void append_category (Category * category, gint* download_count_by_category);
 static void on_status_change (GtkTreeSelection * selection, gpointer data);
 static void on_category_change (GtkTreeSelection * selection, gpointer data);
-static void g_downloadable_connect_signals (GDownloadable *download, gpointer user_data);
-static void on_download_added (GDownloadList *list, GDownloadable *download, gpointer data);
 
 GtkWidget* create_sidepane ()
 {
 	GtkWidget* sidepane = gtk_vbox_new (FALSE, 0);
-  
+
 	create_status_view ();
 	create_category_view ();
 
@@ -64,21 +64,22 @@ GtkWidget* create_sidepane ()
 	return sidepane;
 }
 
-void create_status_view ()
+static void
+create_status_view ()
 {
 	statusmodel = gtk_list_store_new (STATUS_TOTAL_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_INT, NULL);
 	statusview	= gtk_tree_view_new_with_model (GTK_TREE_MODEL(statusmodel));
-	
+
 	/* Status */
 	GtkCellRenderer * renderer;
 	GtkTreeViewColumn * column;
 
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, "Status");
-		
-	renderer = gtk_cell_renderer_pixbuf_new (); 
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
-	gtk_tree_view_column_set_attributes (column, renderer, "stock-id", STATUS_STOCK_COLUMN, NULL); 
+	gtk_tree_view_column_set_attributes (column, renderer, "stock-id", STATUS_STOCK_COLUMN, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
@@ -87,24 +88,19 @@ void create_status_view ()
 
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW(statusview), column);
-
 	refresh_status_model ();
 
-	g_download_list_foreach ((GFunc)g_downloadable_connect_signals, NULL);
-
-	g_signal_connect (g_download_list_get (), "download-added",
-					  G_CALLBACK (on_download_added), NULL);
-	g_signal_connect (g_download_list_get (), "download-removed",
-					  G_CALLBACK (refresh_status_model), NULL);
 	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW(statusview)),
-					  "changed", G_CALLBACK(on_status_change), NULL); 
+					  "changed", G_CALLBACK(on_status_change), NULL);
 }
 
-void create_category_view ()
+static void
+create_category_view ()
 {
-	categorymodel = gtk_list_store_new (CATEGORY_TOTAL_COLUMNS, G_TYPE_STRING, G_TYPE_STRING, G_TYPE_POINTER, NULL);
+	categorymodel = gtk_list_store_new (CATEGORY_TOTAL_COLUMNS,
+										G_TYPE_STRING, G_TYPE_STRING,
+										G_TYPE_POINTER, NULL);
 	categoryview  = gtk_tree_view_new_with_model (GTK_TREE_MODEL(categorymodel));
-
 	refresh_category_model ();
 
 	GtkCellRenderer * renderer;
@@ -112,11 +108,11 @@ void create_category_view ()
 
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, "Category");
-									
+
  	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_attributes (column, renderer, "stock-id", CATEGORY_STOCK_COLUMN, NULL);
-	
+
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	g_object_set (renderer, "scale", 0.9, NULL);
@@ -125,12 +121,30 @@ void create_category_view ()
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (GTK_TREE_VIEW(categoryview), column);
 
-	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW(categoryview)), "changed", G_CALLBACK(on_category_change), NULL); 
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW(categoryview)),
+					  "changed", G_CALLBACK(on_category_change), NULL);
+}
+
+static void
+count_downloads_by_category (GDownloadable *download,
+							 gint *download_count_by_category)
+{
+	Category* category = g_downloadable_get_category (download);
+	gint id = 	category_get_id (category);
+
+	g_assert (id < categories_get_category_count ());
+	download_count_by_category[id]++;
 }
 
 void refresh_category_model ()
 {
 	GtkTreeIter iter;
+	gtk_list_store_clear (categorymodel);
+
+	gint count = categories_get_category_count();
+	gint* download_count_by_category = g_malloc0 (count * sizeof (gint));
+	g_download_list_foreach ((GFunc) count_downloads_by_category,
+							 download_count_by_category);
 
 	gtk_list_store_clear  (categorymodel);
 	gtk_list_store_append (categorymodel, &iter);
@@ -140,37 +154,40 @@ void refresh_category_model ()
 						   CATEGORY_COLUMN, NULL,
 						   -1);
 
-	categories_foreach_category ((GFunc) append_category, NULL);
-}	
+	categories_foreach_category ((GFunc) append_category,
+								 download_count_by_category);
+	g_free (download_count_by_category);
+}
 
-static void count_downloads_by_status (GDownloadable *download, gint *downloads_by_status)
+static void
+count_downloads_by_status (GDownloadable *download,
+						   gint *download_count_by_status)
 {
 	gint status	= g_downloadable_get_status (download);
-	downloads_by_status[status]++;
+	download_count_by_status[status]++;
 }
 
 void refresh_status_model ()
 {
 	GtkTreeIter iter;
-	
 	gtk_list_store_clear (statusmodel);
 
-	gint downloads_by_status[G_DOWNLOADABLE_TOTAL_STATUS] = { 0 };
-	g_download_list_foreach ((GFunc) count_downloads_by_status, downloads_by_status);
+	gint download_count_by_status[G_DOWNLOADABLE_TOTAL_STATUS] = { 0 };
+	g_download_list_foreach ((GFunc) count_downloads_by_status, download_count_by_status);
 
-	gint active  = downloads_by_status[G_DOWNLOADABLE_DOWNLOADING];
-	gint paused  = downloads_by_status[G_DOWNLOADABLE_PAUSED];
-	gint connect = downloads_by_status[G_DOWNLOADABLE_CONNECTING];
-	gint stopped = downloads_by_status[G_DOWNLOADABLE_NETWORK_ERROR];
-	gint done	 = downloads_by_status[G_DOWNLOADABLE_COMPLETED];
+	gint active  = download_count_by_status[G_DOWNLOADABLE_DOWNLOADING];
+	gint paused  = download_count_by_status[G_DOWNLOADABLE_PAUSED];
+	gint connect = download_count_by_status[G_DOWNLOADABLE_CONNECTING];
+	gint stopped = download_count_by_status[G_DOWNLOADABLE_NETWORK_ERROR];
+	gint done	 = download_count_by_status[G_DOWNLOADABLE_COMPLETED];
 	gint all	 = active + paused + stopped + done + connect;
 
 	gchar *all_string	  = g_strdup_printf ("All (%d)", all);
 	gchar *active_string  = g_strdup_printf ("Downloading (%d)", active);
 	gchar *paused_string  = g_strdup_printf ("Paused (%d)", paused);
-	gchar *stopped_string = g_strdup_printf ("Stopped (%d)", stopped); 
+	gchar *stopped_string = g_strdup_printf ("Stopped (%d)", stopped);
 	gchar *done_string	  = g_strdup_printf ("Done (%d)", done);
-	
+
 	gtk_list_store_append (statusmodel, &iter);
 	gtk_list_store_set (statusmodel, &iter,
 						STATUS_STOCK_COLUMN, GTK_STOCK_DIRECTORY,
@@ -182,19 +199,19 @@ void refresh_status_model ()
 						STATUS_STOCK_COLUMN,  GTK_STOCK_GO_DOWN,
 						STATUS_TEXT_COLUMN, active_string,
 						STATUS_STATUS_COLUMN, G_DOWNLOADABLE_DOWNLOADING, -1);
-	
+
 	gtk_list_store_append (statusmodel, &iter);
 	gtk_list_store_set (statusmodel, &iter,
 						STATUS_STOCK_COLUMN, GTK_STOCK_MEDIA_PAUSE,
 						STATUS_TEXT_COLUMN, paused_string,
 						STATUS_STATUS_COLUMN, G_DOWNLOADABLE_PAUSED, -1);
-	
+
 	gtk_list_store_append (statusmodel, &iter);
 	gtk_list_store_set (statusmodel, &iter,
 						STATUS_STOCK_COLUMN, GTK_STOCK_STOP,
 						STATUS_TEXT_COLUMN, stopped_string,
 						STATUS_STATUS_COLUMN, G_DOWNLOADABLE_NETWORK_ERROR, -1);
-	
+
 	gtk_list_store_append (statusmodel, &iter);
 	gtk_list_store_set (statusmodel, &iter,
 						STATUS_STOCK_COLUMN, GTK_STOCK_APPLY,
@@ -202,53 +219,45 @@ void refresh_status_model ()
 						STATUS_STATUS_COLUMN, G_DOWNLOADABLE_COMPLETED, -1);
 }
 
-static void append_category (Category * category, gpointer data)
+static void
+append_category (Category * category, gint* download_count_by_category)
 {
 	GtkTreeIter iter;
+
+	gint id = category_get_id(category);
+	gchar *text = g_strdup_printf ("%s (%d)",
+								   category_get_name (category),
+								   download_count_by_category[id]);
 
 	if (category_get_visible (category)) {
 		gtk_list_store_append (categorymodel, &iter);
 		gtk_list_store_set	  (categorymodel, &iter,
 							   CATEGORY_STOCK_COLUMN, GTK_STOCK_FILE,
-							   CATEGORY_TEXT_COLUMN,  category_get_name (category),
+							   CATEGORY_TEXT_COLUMN,  text,
 							   CATEGORY_COLUMN, category, -1);
 	}
 }
 
-static void on_status_change (GtkTreeSelection * selection, gpointer data)
+static void
+on_status_change (GtkTreeSelection * selection, gpointer data)
 {
 	GtkTreeIter iter;
 	gint status = 0;
-	
+
 	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL(statusmodel), &iter, STATUS_STATUS_COLUMN, &status, -1);
 		g_download_list_controller_set_status_filter (status);
 	}
 }
 
-static void on_category_change (GtkTreeSelection * selection, gpointer data)
+static void
+on_category_change (GtkTreeSelection * selection, gpointer data)
 {
 	GtkTreeIter iter;
 	Category *category;
-	
+
 	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL(categorymodel), &iter, CATEGORY_COLUMN, &category, -1);
 		g_download_list_controller_set_category_filter (category);
 	}
-} 
-
-static void on_download_status_changed (GDownloadable * download, gpointer data)
-{
-	refresh_status_model ();
 }
-
-static void g_downloadable_connect_signals (GDownloadable *download, gpointer data)
-{
-	g_signal_connect (download, "status-changed", G_CALLBACK (on_download_status_changed), data); 
-} 
-
-static void on_download_added (GDownloadList *list, GDownloadable *download, gpointer data)
-{
-	g_downloadable_connect_signals (download, data);
-	refresh_status_model ();
-} 

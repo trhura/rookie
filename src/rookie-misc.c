@@ -2,17 +2,17 @@
 /*
  * rookie-misc.c
  * Copyright (C) Thura Hlaing 2010 <trhura@gmail.com>
- * 
+ *
  * rookie is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * rookie is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -273,10 +273,9 @@ rookie_misc_add_download (const gchar * url)
 
 		GDownloadableBackend *backend = download_dialog_get_backend (DOWNLOAD_DIALOG(dialog));
 		GDownloadable *download = g_downloadable_create_download (purl, path, backend);
-		g_download_list_add (download);
-
 		Category *category = download_dialog_get_category (DOWNLOAD_DIALOG(dialog));
 		g_downloadable_set_category (download, category);
+		g_download_list_add (download);
 
 		if (download_dialog_get_start_downloading (DOWNLOAD_DIALOG (dialog))) {
 			g_downloadable_start (download, FALSE);
@@ -330,4 +329,4 @@ rookie_misc_show_notification	(const gchar *summary,
 		notify_notification_show (notification, &error);
 		handle_error (error);
 	}
-} 
+}

@@ -21,6 +21,7 @@
 #include "gio-download.h"
 #include "soup-download.h"
 #include "g-downloadable-backends.h"
+#include "rookie-debug.h"
 
 #define GIO_NAME		"gio-backend"
 #define SOUP_NAME		"soup-backend"
@@ -64,8 +65,9 @@ GDownloadableBackend * g_downloadable_backends_get_default ()
 	return gio_backend;
 }
 
-GDownloadableBackend * g_downloadable_backends_by_name (const gchar * name)
+GDownloadableBackend * g_downloadable_backends_by_name (const gchar* name)
 {
+	rookie_debug ("%s name", name);
 	if (g_strcmp0 (GIO_NAME, name) == 0)
 		return gio_backend;
 

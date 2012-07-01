@@ -221,5 +221,5 @@ void g_download_list_remove (GDownloadable * download)
 						 GUINT_TO_POINTER(download->priv->uid));
 	g_signal_emit_by_name (object, "download-removed", download);
 	g_signal_emit_by_name (object, "changed");
-	g_object_unref (download); /* Is it supposed to? */
+	//g_object_unref (download); /* Is it supposed to? */
 }

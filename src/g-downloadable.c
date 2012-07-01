@@ -527,6 +527,7 @@ GDownloadableFinishAction g_downloadable_get_finish_action (GDownloadable *downl
 
 Category* g_downloadable_get_category (GDownloadable *download)
 {
+	//rookie_debug ("category is %s", category_get_name(download->priv->category));
 	if (download->priv->category != NULL)
 		return download->priv->category;
 	else

@@ -350,12 +350,12 @@ format_status_for_display (GDownloadableStatus status,
 	}
 }
 
-GtkWidget * g_download_list_controller_get_view ()
+GtkWidget* g_download_list_controller_get_view ()
 {
 	return g_download_list_controller_get()->priv->view;
 }
 
-GtkTreeSelection * g_download_list_controller_get_selection ()
+GtkTreeSelection* g_download_list_controller_get_selection ()
 {
 	return g_download_list_controller_get()->priv->selection;
 }

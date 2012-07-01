@@ -64,6 +64,7 @@ static gboolean on_window_delete (GtkWidget *, GdkEvent *, gpointer);
 static gboolean on_view_button_press (GtkWidget *, GdkEventButton *, gpointer);
 static void on_egg_icon_popup_menu (GtkStatusIcon *, guint, guint, gpointer);
 static void on_download_added (GDownloadList *, GDownloadable *, gpointer);
+static void on_download_removed (GDownloadList *, GDownloadable *, gpointer);
 static void g_downloadable_connect_signals (GDownloadable *, gpointer);
 
 static GtkWidget * mainpopup;
@@ -188,8 +189,11 @@ void create_main_window ()
 
 	g_signal_connect (g_download_list_get (), "download-added",
 					  G_CALLBACK (on_download_added), NULL);
+	g_signal_connect (g_download_list_get (), "download-removed",
+					  G_CALLBACK (on_download_removed), NULL);
 	g_signal_connect (view, "button-press-event",
 					  G_CALLBACK(on_view_button_press), selection);
+
 	g_signal_connect (selection, "changed",
 					  G_CALLBACK(on_selection_change), NULL);
 }
@@ -465,6 +469,7 @@ on_download_status_changed (GDownloadable * download,
 	/* When the status of a download changed, we might need to update actions, if it is
 	 * selected. For now, we just simply emit selection changed to update action.		*/
 	g_signal_emit_by_name (selection, "changed");
+	refresh_status_model ();
 }
 
 static void
@@ -481,6 +486,17 @@ on_download_added (GDownloadList *list,
 				   gpointer data)
 {
 	g_downloadable_connect_signals (download, data);
+	refresh_status_model ();
+	refresh_category_model ();
+}
+
+static void
+on_download_removed (GDownloadList *list,
+					 GDownloadable *download,
+					 gpointer data)
+{
+	refresh_status_model ();
+	refresh_category_model ();
 }
 
 static void on_new ()

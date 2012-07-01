@@ -2,17 +2,17 @@
 /*
  * categories.c
  * Copyright (C) Thura Hlaing 2010 <trhura@gmail.com>
- * 
+ *
  * rookie is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * rookie is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -56,7 +56,7 @@ static void load_categories ()
 	gint priority, finish_action;
 
 	while (i < group_count ) {
-		
+
 		pattern	= g_key_file_get_string (keyfile, groups[i], "pattern", &error);
 		handle_error (error);
 
@@ -65,7 +65,7 @@ static void load_categories ()
 
 		path	= g_key_file_get_string (keyfile, groups[i], "path", &error);
 		handle_error (error);
- 
+
 		priority	= g_key_file_get_integer (keyfile, groups[i], "priority", &error);
 		handle_error (error);
 
@@ -74,7 +74,7 @@ static void load_categories ()
 
 		finish_action = g_key_file_get_integer (keyfile, groups[i], "finish-action", &error);
 		handle_error (error);
-		
+
 		Category* category  = category_new (groups[i]);
 
 		category->id = i;
@@ -84,7 +84,7 @@ static void load_categories ()
 		category->backend  = (backend == NULL) ? g_strdup (g_downloadable_backends_get_default ()->name) : backend;
 		category->path	   = (path == NULL) ? g_strdup (g_getenv ("HOME")) : path;
 		category->iter	   = g_sequence_append (sequence, category);
-		category->finish_action = finish_action; 
+		category->finish_action = finish_action;
 
 		i++;
 	}
@@ -92,33 +92,34 @@ static void load_categories ()
 	g_free (cpath);
 	g_strfreev (groups);
 	g_key_file_free (keyfile);
-}  
+}
 
-static void save_each_category (Category * category, GKeyFile *keyfile)
+static void
+save_each_category (Category * category, GKeyFile *keyfile)
 {
 	g_key_file_set_string  (keyfile, category->name, "path", category->path);
 	g_key_file_set_string  (keyfile, category->name, "pattern", category->pattern);
 	g_key_file_set_string  (keyfile, category->name, "backend", category->backend);
 	g_key_file_set_boolean (keyfile, category->name, "visible", category->visible);
 	g_key_file_set_integer (keyfile, category->name, "priority", category->priority);
-	g_key_file_set_integer (keyfile, category->name, "finish-action", category->finish_action); 
+	g_key_file_set_integer (keyfile, category->name, "finish-action", category->finish_action);
 }
 
 void save_categories ()
 {
 	GError *error = NULL;
 	gsize length;
-	
+
 	GKeyFile *keyfile  = g_key_file_new ();
 	categories_foreach_category ((GFunc) save_each_category, keyfile);
 
 	gchar *file	  = rookie_misc_get_category_file_path ();
 	gchar *content = g_key_file_to_data (keyfile, &length, &error);
 	handle_error (error);
-  
+
 	g_file_set_contents (file, content, length, &error);
 	handle_error (error);
-	
+
 	g_free (file);
 	g_free (content);
 	g_key_file_free (keyfile);
@@ -134,20 +135,20 @@ void categories_foreach_category (GFunc func, gpointer data)
 		iter = g_sequence_iter_next (iter);
 	}
 }
-								  
+
 void categories_init ()
 {
-	sequence = g_sequence_new ((GDestroyNotify)category_free); 
+	sequence = g_sequence_new ((GDestroyNotify)category_free);
 	load_categories ();
 }
 
 void categories_finalize ()
 {
 	g_assert (sequence != NULL);
-	
+
 	save_categories ();
 	g_sequence_free (sequence);
-} 
+}
 
 Category* category_new (const gchar *name)
 {
@@ -160,13 +161,19 @@ Category* category_new (const gchar *name)
 void category_free (Category *category)
 {
 	g_assert (category != NULL);
-	
+
 	g_free (category->name);
 	g_free (category->path);
 	g_free (category->pattern);
 	g_free (category->backend);
 	g_free (category);
-} 
+}
+
+gint categories_get_category_count ()
+{
+	g_assert (sequence != NULL);
+	return g_sequence_get_length (sequence);
+}
 
 void categories_remove_category (Category *category)
 {
@@ -178,28 +185,28 @@ void categories_remove_category (Category *category)
 Category* categories_append_category ()
 {
 	g_assert (sequence != NULL);
-	
+
 	Category *category = category_new ("Untitled");
 	category->visible = TRUE;
 	category->pattern = g_strdup("*");
-	category->path	  = g_strdup(g_getenv("HOME")); 
-	category->iter	  = g_sequence_append (sequence, category); 
+	category->path	  = g_strdup(g_getenv("HOME"));
+	category->iter	  = g_sequence_append (sequence, category);
 	category->backend = g_strdup (g_downloadable_backends_get_default ()->name);
-	
+
 	return category;
-} 
+}
 
 Category* categories_get_category_by_url (const gchar *url)
 {
 	g_assert (sequence != NULL);
-	
+
 	GSequenceIter *iter = g_sequence_get_begin_iter (sequence);
 	while (!g_sequence_iter_is_end (iter)) {
 		Category *category = (Category*) g_sequence_get (iter);
 
 		if (g_regex_match_simple (category->pattern, url, G_REGEX_CASELESS | G_REGEX_RAW, 0))
 			return category;
-	
+
 		iter = g_sequence_iter_next (iter);
 	}
 
@@ -210,14 +217,14 @@ Category* categories_get_category_by_url (const gchar *url)
 Category* categories_get_category_by_name (const gchar *name)
 {
 	g_assert (sequence != NULL);
-	
+
 	GSequenceIter *iter = g_sequence_get_begin_iter (sequence);
 	while (!g_sequence_iter_is_end (iter)) {
 		Category *category = (Category*) g_sequence_get (iter);
 
 		if(g_strcmp0 (name, category->name) == 0)
 			return category;
-	
+
 		iter = g_sequence_iter_next (iter);
 	}
 
@@ -228,14 +235,14 @@ Category* categories_get_category_by_name (const gchar *name)
 Category* categories_get_category_by_id (gint id)
 {
 	g_assert (sequence != NULL);
-	
+
 	GSequenceIter *iter = g_sequence_get_begin_iter (sequence);
 	while (!g_sequence_iter_is_end (iter)) {
 		Category *category = (Category*) g_sequence_get (iter);
 
 		if(id == category->id)
 			return category;
-	
+
 		iter = g_sequence_iter_next (iter);
 	}
 
@@ -272,7 +279,7 @@ const gchar* category_get_name (Category *category)
 	g_assert (category != NULL);
 	return category->name;
 }
-	
+
 const gchar* category_get_pattern (Category *category)
 {
 	g_assert (category != NULL);
@@ -337,12 +344,14 @@ void category_set_finish_action (Category *category, gint finish_action)
 	category->finish_action = finish_action;
 }
 
-void category_add_finish_action (Category *category, GDownloadableFinishAction action)
+void category_add_finish_action (Category *category,
+								 GDownloadableFinishAction action)
 {
 	category->finish_action |= action;
 }
 
-void category_remove_finish_action (Category *category, GDownloadableFinishAction action)
+void category_remove_finish_action (Category *category,
+									GDownloadableFinishAction action)
 {
 	category->finish_action &= ~action;
 }
