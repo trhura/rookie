@@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 m4_define(rookie_major_version,  0)
 m4_define(rookie_minor_version,  2)
-m4_define(rookie_micro_version,  5)
+m4_define(rookie_micro_version,  6)
 m4_define(rookie_version, [rookie_major_version.rookie_minor_version.rookie_micro_version])
 
 AC_INIT(rookie, [rookie_version],[http://launchpad.net/rookie],[rookie])
@@ -64,4 +64,4 @@ Makefile
 src/Makefile
 po/Makefile.in
 data/Makefile
-]) 
+])

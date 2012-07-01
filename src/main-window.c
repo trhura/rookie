@@ -29,6 +29,7 @@
 #include "sidepane.h"
 #include "bottom-pane.h"
 #include "main-window.h"
+#include "statusbar.h"
 #include "preferences-dialog.h"
 
 static void relayout_mainbox ();
@@ -112,7 +113,7 @@ void create_main_window ()
 
 	menubar = gtk_ui_manager_get_widget (ui_manager, "/menubar");
 	toolbar = gtk_ui_manager_get_widget (ui_manager, "/toolbar");
-	statbar = gtk_statusbar_new ();
+	statbar = create_statusbar ();
 	mainbox = gtk_vbox_new (FALSE, 0);
 
 	mainpopup = gtk_ui_manager_get_widget (ui_manager, "/m_popup");
@@ -457,6 +458,7 @@ on_download_status_changed (GDownloadable * download,
 	 * selected. For now, we just simply emit selection changed to update action.		*/
 	g_signal_emit_by_name (selection, "changed");
 	refresh_status_model ();
+	refresh_statlabel ();
 }
 
 static void
@@ -473,6 +475,7 @@ on_download_added (GDownloadList *list,
 				   gpointer data)
 {
 	g_downloadable_connect_signals (download, data);
+	refresh_statlabel ();
 	refresh_status_model ();
 	refresh_category_model ();
 }
@@ -482,6 +485,7 @@ on_download_removed (GDownloadList *list,
 					 GDownloadable *download,
 					 gpointer data)
 {
+	refresh_statlabel ();
 	refresh_status_model ();
 	refresh_category_model ();
 }

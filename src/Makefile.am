@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 ## Created by Anjuta
+NULL=
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
@@ -39,6 +40,8 @@ rookie_SOURCES =		\
 	g-download-list-controller.h	\
 	g-downloadable-backends.c	\
 	g-downloadable-backends.h	\
+	statusbar.c		\
+	statusbar.h		\
 	main-window.c		\
 	main-window.h		\
 	sidepane.c		\
@@ -52,7 +55,8 @@ rookie_SOURCES =		\
 	preferences-dialog.c	\
 	preferences-dialog.h	\
 	soup-download.c		\
-	soup-download.h
+	soup-download.h		\
+	$(NULL)
 
 rookie_LDFLAGS = \
 	-Wl,--export-dynamic

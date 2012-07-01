@@ -47,16 +47,18 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
+am__objects_1 =
 am_rookie_OBJECTS = main.$(OBJEXT) rookie-app.$(OBJEXT) \
 	rookie-debug.$(OBJEXT) rookie-settings.$(OBJEXT) \
 	rookie-services.$(OBJEXT) rookie-misc.$(OBJEXT) \
 	categories.$(OBJEXT) g-downloadable.$(OBJEXT) \
 	gio-download.$(OBJEXT) g-download-list.$(OBJEXT) \
 	g-download-list-controller.$(OBJEXT) \
-	g-downloadable-backends.$(OBJEXT) main-window.$(OBJEXT) \
-	sidepane.$(OBJEXT) bottom-pane.$(OBJEXT) \
+	g-downloadable-backends.$(OBJEXT) statusbar.$(OBJEXT) \
+	main-window.$(OBJEXT) sidepane.$(OBJEXT) bottom-pane.$(OBJEXT) \
 	download-dialog.$(OBJEXT) category-dialog.$(OBJEXT) \
-	preferences-dialog.$(OBJEXT) soup-download.$(OBJEXT)
+	preferences-dialog.$(OBJEXT) soup-download.$(OBJEXT) \
+	$(am__objects_1)
 rookie_OBJECTS = $(am_rookie_OBJECTS)
 am__DEPENDENCIES_1 =
 rookie_DEPENDENCIES = $(am__DEPENDENCIES_1)
@@ -243,6 +245,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+NULL = 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(prefix)/$(DATADIRNAME)/locale"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
@@ -278,6 +281,8 @@ rookie_SOURCES = \
 	g-download-list-controller.h	\
 	g-downloadable-backends.c	\
 	g-downloadable-backends.h	\
+	statusbar.c		\
+	statusbar.h		\
 	main-window.c		\
 	main-window.h		\
 	sidepane.c		\
@@ -291,7 +296,8 @@ rookie_SOURCES = \
 	preferences-dialog.c	\
 	preferences-dialog.h	\
 	soup-download.c		\
-	soup-download.h
+	soup-download.h		\
+	$(NULL)
 
 rookie_LDFLAGS = \
 	-Wl,--export-dynamic
@@ -403,6 +409,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/rookie-settings.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/sidepane.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/soup-download.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/statusbar.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
