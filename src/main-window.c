@@ -316,19 +316,19 @@ GtkActionGroup * create_action_group ()
 
 	GtkActionEntry a_remove = {
 		"a_remove", GTK_STOCK_REMOVE, _("_Remove"),
-		NULL, _("Remove selected downloads"),
+		"Delete", _("Remove selected downloads"),
 		G_CALLBACK(on_remove)
 	};
 
 	GtkActionEntry a_open = {
 		"a_open", GTK_STOCK_FILE, ("_Open File"),
-		NULL, _("Open selected files"),
+		"<control>o", _("Open selected files"),
 		G_CALLBACK(on_open)
 	};
 
 	GtkActionEntry a_open_location = {
 		"a_open_location", GTK_STOCK_DIRECTORY, _("Open _Location"),
-		NULL, _("Open locations of selected files"),
+		"<control>l", _("Open locations of selected files"),
 		G_CALLBACK(on_open_folder)
 	};
 
@@ -358,13 +358,13 @@ GtkActionGroup * create_action_group ()
 
 	GtkToggleActionEntry a_sidepane = {
 		"a_sidepane", NULL, _("_Side Pane"),
-		NULL, _("Show or hide side pane"), G_CALLBACK(on_sidepane),
+		"F9", _("Show or hide side pane"), G_CALLBACK(on_sidepane),
 		rookie_settings_get_visible (ROOKIE_SIDEPANE_VISIBLE)
 	};
 
 	GtkToggleActionEntry a_bottompane = {
 		"a_bottompane", NULL, _("_Bottom Pane"),
-		NULL, _("Show or hide bottom pane"), G_CALLBACK(on_bottompane),
+		"F3", _("Show or hide bottom pane"), G_CALLBACK(on_bottompane),
 		rookie_settings_get_visible (ROOKIE_BOTTOMPANE_VISIBLE)
 	};
 
@@ -398,7 +398,7 @@ GtkActionGroup * create_action_group ()
 
 	GtkActionEntry a_properties = {
 		"a_properties", GTK_STOCK_PROPERTIES, _("_Download Properties"),
-		NULL, _("View Download Properties"),
+		"<control>r", _("View Download Properties"),
 		G_CALLBACK(on_properties)
 	};
 
