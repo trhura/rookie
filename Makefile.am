@@ -2,7 +2,7 @@
 ## Created by Anjuta
 ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
 
-SUBDIRS = src data po
+SUBDIRS = src data
 
 MAINTAINERCLEANFILES = \
 	Makefile.in

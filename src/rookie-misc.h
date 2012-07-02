@@ -22,13 +22,6 @@
 #ifndef _ROOKIE_MISC_H_
 #define _ROOKIE_MISC_H_
 
-typedef enum {
-	G_DOWNLOADABLE_FINISH_ACTION_NOTIFY = 1 << 0,
-	G_DOWNLOADABLE_FINISH_ACTION_OPEN   = 1 << 1,
-	G_DOWNLOADABLE_FINISH_ACTION_OPEN_LOCATION = 1 << 2
-} GDownloadableFinishAction;
-
-
 gchar*			rookie_misc_get_state_file_path ();
 gchar*			rookie_misc_get_category_file_path ();
 

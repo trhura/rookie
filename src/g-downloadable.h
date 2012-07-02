@@ -50,6 +50,12 @@ typedef enum  {
 	G_DOWNLOADABLE_TOTAL_STATUS
 } GDownloadableStatus;
 
+typedef enum {
+	G_DOWNLOADABLE_FINISH_ACTION_NOTIFY = 1 << 0,
+	G_DOWNLOADABLE_FINISH_ACTION_OPEN   = 1 << 1,
+	G_DOWNLOADABLE_FINISH_ACTION_OPEN_LOCATION = 1 << 2
+} GDownloadableFinishAction;
+
 struct _GDownloadableClass
 {
 	GObjectClass parent_class;

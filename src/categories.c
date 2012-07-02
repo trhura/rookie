@@ -345,13 +345,13 @@ void category_set_finish_action (Category *category, gint finish_action)
 }
 
 void category_add_finish_action (Category *category,
-								 GDownloadableFinishAction action)
+								 gint action)
 {
 	category->finish_action |= action;
 }
 
 void category_remove_finish_action (Category *category,
-									GDownloadableFinishAction action)
+									gint action)
 {
 	category->finish_action &= ~action;
 }

@@ -51,7 +51,7 @@ void category_set_visible  (Category *category, gboolean visible);
 void category_set_backend (Category *category, const gchar *backend);
 void category_set_pattern  (Category *category, const gchar *pattern);
 void category_set_finish_action (Category *category, gint finish_action);
-void category_add_finish_action (Category *category, GDownloadableFinishAction action);
-void category_remove_finish_action (Category *category, GDownloadableFinishAction action);
+void category_add_finish_action (Category *category, int action);
+void category_remove_finish_action (Category *category, int action);
 
 #endif

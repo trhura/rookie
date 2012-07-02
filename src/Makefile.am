@@ -109,7 +109,7 @@ introspection_sources = $(INST_H_FILES) $(filter %.c,$(librookie_la_SOURCES))
 # NOTE: This should change with $(Rookie_API_VERSION)
 Rookie-1.0.gir: librookie.la
 Rookie_1_0_gir_INCLUDES = GLib-2.0 GObject-2.0 Gtk-3.0
-Rookie_1_0_gir_SCANNERFLAGS = --c-include=rookie.h --pkg-export=rookie
+Rookie_1_0_gir_SCANNERFLAGS = --c-include=rookie.h --pkg-export=rookie --identifier-prefix="G" --symbol-prefix="g"
 #Rookie_1_0_gir_CFLAGS =
 Rookie_1_0_gir_NAMESPACE = Rookie
 Rookie_1_0_gir_LIBS = librookie.la

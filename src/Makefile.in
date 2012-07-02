@@ -41,10 +41,10 @@ bin_PROGRAMS = rookie$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/intltool.m4 \
+	$(top_srcdir)/m4/libtool.m4 $(top_srcdir)/m4/ltoptions.m4 \
+	$(top_srcdir)/m4/ltsugar.m4 $(top_srcdir)/m4/ltversion.m4 \
+	$(top_srcdir)/m4/lt~obsolete.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -398,7 +398,7 @@ INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --warn-all
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
 @HAVE_INTROSPECTION_TRUE@introspection_sources = $(INST_H_FILES) $(filter %.c,$(librookie_la_SOURCES))
 @HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_INCLUDES = GLib-2.0 GObject-2.0 Gtk-3.0
-@HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_SCANNERFLAGS = --c-include=rookie.h --pkg-export=rookie
+@HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_SCANNERFLAGS = --c-include=rookie.h --pkg-export=rookie --identifier-prefix="G" --symbol-prefix="g"
 #Rookie_1_0_gir_CFLAGS =
 @HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_NAMESPACE = Rookie
 @HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_LIBS = librookie.la
