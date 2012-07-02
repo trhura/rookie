@@ -1,6 +1,6 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
- * g-downloable-private.h
+ * rookie.h
  * Copyright (C) Thura Hlaing 2010 <trhura@gmail.com>
  *
  * rookie is free software: you can redistribute it and/or modify it
@@ -17,38 +17,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <gio/gio.h>
-#include <gtk/gtk.h>
-#include <libpeas/peas.h>
-
+#include "rookie-app.h"
 #include "g-downloadable.h"
-
-#define G_DOWNLOADABLE_PRIVATE(o)  (G_TYPE_INSTANCE_GET_PRIVATE ((o), G_TYPE_DOWNLOADABLE, GDownloadablePrivate))
-
-struct _GDownloadablePrivate
-{
-	gint speed;
-	guint64 size;
-	guint64 downloaded_size;
-	GDownloadableStatus status;
-
-	guint uid;
-	gchar *url;
-	gchar *basename;
-	gchar *icon_name;
-	gchar *local_path;
-	gchar *comment;
-	GtkTreeIter *iter;
-	gint finish_action;
-	GTimer *timer;
-
-	GDownloadableBackend *backend;
-	PeasExtensionSet *extensions;
-	Category *category;
-
-	GFile *local_file;
-	GFile *remote_file;
-	GFile *log_file;
-};
-
-void g_downloadable_set_status (GDownloadable *download, GDownloadableStatus status);
+#include "g-downloadable-activatable.h"
+#include "g-download-list.h"
+#include "g-download-list-controller.h"

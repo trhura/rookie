@@ -15,6 +15,8 @@
 
 @SET_MAKE@
 
+
+
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkgincludedir = $(includedir)/@PACKAGE@
@@ -35,36 +37,85 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = rookie$(EXEEXT)
+@HAVE_INTROSPECTION_TRUE@am__append_1 = Rookie-1.0.gir
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
+	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
+	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)"
-PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 =
-am_rookie_OBJECTS = main.$(OBJEXT) rookie-app.$(OBJEXT) \
-	rookie-debug.$(OBJEXT) rookie-settings.$(OBJEXT) \
-	rookie-services.$(OBJEXT) rookie-misc.$(OBJEXT) \
-	categories.$(OBJEXT) g-downloadable.$(OBJEXT) \
-	gio-download.$(OBJEXT) g-download-list.$(OBJEXT) \
-	g-download-list-controller.$(OBJEXT) \
-	g-downloadable-backends.$(OBJEXT) statusbar.$(OBJEXT) \
-	main-window.$(OBJEXT) sidepane.$(OBJEXT) bottom-pane.$(OBJEXT) \
-	download-dialog.$(OBJEXT) category-dialog.$(OBJEXT) \
-	preferences-dialog.$(OBJEXT) soup-download.$(OBJEXT) \
-	$(am__objects_1)
-rookie_OBJECTS = $(am_rookie_OBJECTS)
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
+	"$(DESTDIR)$(girdir)" "$(DESTDIR)$(headerdir)" \
+	"$(DESTDIR)$(typelibdir)"
+LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-rookie_DEPENDENCIES = $(am__DEPENDENCIES_1)
+librookie_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
+am__objects_1 =
+am__objects_2 = $(am__objects_1)
+am_librookie_la_OBJECTS = $(am__objects_2) librookie_la-rookie-app.lo \
+	librookie_la-g-downloadable.lo librookie_la-g-download-list.lo \
+	librookie_la-g-download-list-controller.lo \
+	librookie_la-g-downloadable-activatable.lo \
+	librookie_la-rookie-debug.lo librookie_la-rookie-settings.lo \
+	librookie_la-rookie-services.lo librookie_la-rookie-misc.lo \
+	librookie_la-categories.lo librookie_la-gio-download.lo \
+	librookie_la-g-downloadable-backends.lo \
+	librookie_la-statusbar.lo librookie_la-main-window.lo \
+	librookie_la-sidepane.lo librookie_la-bottom-pane.lo \
+	librookie_la-download-dialog.lo \
+	librookie_la-category-dialog.lo \
+	librookie_la-preferences-dialog.lo \
+	librookie_la-soup-download.lo $(am__objects_1)
+librookie_la_OBJECTS = $(am_librookie_la_OBJECTS)
 AM_V_lt = $(am__v_lt_$(V))
 am__v_lt_ = $(am__v_lt_$(AM_DEFAULT_VERBOSITY))
 am__v_lt_0 = --silent
+librookie_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(librookie_la_CFLAGS) \
+	$(CFLAGS) $(librookie_la_LDFLAGS) $(LDFLAGS) -o $@
+PROGRAMS = $(bin_PROGRAMS)
+am__objects_3 = $(am__objects_2) rookie-app.$(OBJEXT) \
+	g-downloadable.$(OBJEXT) g-download-list.$(OBJEXT) \
+	g-download-list-controller.$(OBJEXT) \
+	g-downloadable-activatable.$(OBJEXT) rookie-debug.$(OBJEXT) \
+	rookie-settings.$(OBJEXT) rookie-services.$(OBJEXT) \
+	rookie-misc.$(OBJEXT) categories.$(OBJEXT) \
+	gio-download.$(OBJEXT) g-downloadable-backends.$(OBJEXT) \
+	statusbar.$(OBJEXT) main-window.$(OBJEXT) sidepane.$(OBJEXT) \
+	bottom-pane.$(OBJEXT) download-dialog.$(OBJEXT) \
+	category-dialog.$(OBJEXT) preferences-dialog.$(OBJEXT) \
+	soup-download.$(OBJEXT) $(am__objects_1)
+am_rookie_OBJECTS = main.$(OBJEXT) $(am__objects_3) $(am__objects_1)
+rookie_OBJECTS = $(am_rookie_OBJECTS)
+rookie_DEPENDENCIES = $(am__DEPENDENCIES_1)
 rookie_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(rookie_LDFLAGS) $(LDFLAGS) -o $@
@@ -94,8 +145,9 @@ am__v_CCLD_0 = @echo "  CCLD  " $@;
 AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
-SOURCES = $(rookie_SOURCES)
-DIST_SOURCES = $(rookie_SOURCES)
+SOURCES = $(librookie_la_SOURCES) $(rookie_SOURCES)
+DIST_SOURCES = $(librookie_la_SOURCES) $(rookie_SOURCES)
+DATA = $(gir_DATA) $(header_DATA) $(typelib_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -145,6 +197,14 @@ INTLTOOL_EXTRACT = @INTLTOOL_EXTRACT@
 INTLTOOL_MERGE = @INTLTOOL_MERGE@
 INTLTOOL_PERL = @INTLTOOL_PERL@
 INTLTOOL_UPDATE = @INTLTOOL_UPDATE@
+INTROSPECTION_CFLAGS = @INTROSPECTION_CFLAGS@
+INTROSPECTION_COMPILER = @INTROSPECTION_COMPILER@
+INTROSPECTION_GENERATE = @INTROSPECTION_GENERATE@
+INTROSPECTION_GIRDIR = @INTROSPECTION_GIRDIR@
+INTROSPECTION_LIBS = @INTROSPECTION_LIBS@
+INTROSPECTION_MAKEFILE = @INTROSPECTION_MAKEFILE@
+INTROSPECTION_SCANNER = @INTROSPECTION_SCANNER@
+INTROSPECTION_TYPELIBDIR = @INTROSPECTION_TYPELIBDIR@
 LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
@@ -254,13 +314,30 @@ AM_CPPFLAGS = \
 
 AM_CFLAGS = \
 	 -Wall\
-	 -g
+	 -g \
+	 $(NULL)
 
-rookie_SOURCES = \
-	main.c			\
-	rookie-i18n.h		\
+lib_LTLIBRARIES = librookie.la
+INST_H_FILES = \
 	rookie-app.h		\
+	g-downloadable.h	\
+	g-downloadable-activatable.h	\
+	g-download-list.h	\
+	g-download-list-controller.h	\
+	$(NULL)
+
+headerdir = $(includedir)/rookie/$(Rookie_API_VERSION)
+header_DATA = $(INST_H_FILES)
+
+# Rookie main library (used for main player; separate to allow gtk-doc to be used)
+librookie_la_SOURCES = \
+	$(INST_H_FILES)		\
 	rookie-app.c		\
+	g-downloadable.c 	\
+	g-download-list.c	\
+	g-download-list-controller.c	\
+	g-downloadable-activatable.c 	\
+	rookie-i18n.h		\
 	rookie-debug.c		\
 	rookie-debug.h		\
 	rookie-settings.c	\
@@ -271,14 +348,8 @@ rookie_SOURCES = \
 	rookie-misc.h		\
 	categories.c		\
 	categories.h		\
-	g-downloadable.c 	\
-	g-downloadable.h	\
 	gio-download.c		\
 	gio-download.h		\
-	g-download-list.c	\
-	g-download-list.h	\
-	g-download-list-controller.c	\
-	g-download-list-controller.h	\
 	g-downloadable-backends.c	\
 	g-downloadable-backends.h	\
 	statusbar.c		\
@@ -299,10 +370,45 @@ rookie_SOURCES = \
 	soup-download.h		\
 	$(NULL)
 
+librookie_la_CPPFLAGS = \
+	$(AM_CPPFLAGS)
+
+librookie_la_CFLAGS = \
+	$(AM_CFLAGS)
+
+librookie_la_LDFLAGS = \
+	-export-dynamic	\
+	-no-undefined \
+	$(AM_LDFLAGS)
+
+librookie_la_LIBADD = \
+	$(ROOKIE_LIBS)
+
+rookie_SOURCES = \
+	main.c	\
+	$(librookie_la_SOURCES) \
+	$(NULL)
+
 rookie_LDFLAGS = \
 	-Wl,--export-dynamic
 
 rookie_LDADD = $(ROOKIE_LIBS)
+INTROSPECTION_GIRS = $(am__append_1)
+INTROSPECTION_SCANNER_ARGS = --add-include-path=$(srcdir) --warn-all
+INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir)
+@HAVE_INTROSPECTION_TRUE@introspection_sources = $(INST_H_FILES) $(filter %.c,$(librookie_la_SOURCES))
+@HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_INCLUDES = GLib-2.0 GObject-2.0 Gtk-3.0
+@HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_SCANNERFLAGS = --c-include=rookie.h --pkg-export=rookie
+#Rookie_1_0_gir_CFLAGS =
+@HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_NAMESPACE = Rookie
+@HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_LIBS = librookie.la
+@HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_FILES = $(introspection_sources)
+@HAVE_INTROSPECTION_TRUE@Rookie_1_0_gir_EXPORT_PACKAGES = Rookie
+@HAVE_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
+@HAVE_INTROSPECTION_TRUE@gir_DATA = $(INTROSPECTION_GIRS)
+@HAVE_INTROSPECTION_TRUE@typelibdir = $(libdir)/girepository-1.0
+@HAVE_INTROSPECTION_TRUE@typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+@HAVE_INTROSPECTION_TRUE@CLEANFILES = $(gir_DATA) $(typelib_DATA)
 all: all-am
 
 .SUFFIXES:
@@ -337,6 +443,39 @@ $(top_srcdir)/configure: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(am__aclocal_m4_deps):
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
+	@$(NORMAL_INSTALL)
+	test -z "$(libdir)" || $(MKDIR_P) "$(DESTDIR)$(libdir)"
+	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	list2=; for p in $$list; do \
+	  if test -f $$p; then \
+	    list2="$$list2 $$p"; \
+	  else :; fi; \
+	done; \
+	test -z "$$list2" || { \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 '$(DESTDIR)$(libdir)'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL) $(INSTALL_STRIP_FLAG) $$list2 "$(DESTDIR)$(libdir)"; \
+	}
+
+uninstall-libLTLIBRARIES:
+	@$(NORMAL_UNINSTALL)
+	@list='$(lib_LTLIBRARIES)'; test -n "$(libdir)" || list=; \
+	for p in $$list; do \
+	  $(am__strip_dir) \
+	  echo " $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f '$(DESTDIR)$(libdir)/$$f'"; \
+	  $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=uninstall rm -f "$(DESTDIR)$(libdir)/$$f"; \
+	done
+
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	  dir="`echo $$p | sed -e 's|/[^/]*$$||'`"; \
+	  test "$$dir" != "$$p" || dir=.; \
+	  echo "rm -f \"$${dir}/so_locations\""; \
+	  rm -f "$${dir}/so_locations"; \
+	done
+librookie.la: $(librookie_la_OBJECTS) $(librookie_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(librookie_la_LINK) -rpath $(libdir) $(librookie_la_OBJECTS) $(librookie_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
@@ -396,9 +535,30 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/download-dialog.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/g-download-list-controller.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/g-download-list.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/g-downloadable-activatable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/g-downloadable-backends.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/g-downloadable.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gio-download.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-bottom-pane.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-categories.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-category-dialog.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-download-dialog.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-g-download-list-controller.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-g-download-list.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-g-downloadable-activatable.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-g-downloadable-backends.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-g-downloadable.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-gio-download.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-main-window.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-preferences-dialog.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-rookie-app.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-rookie-debug.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-rookie-misc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-rookie-services.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-rookie-settings.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-sidepane.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-soup-download.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/librookie_la-statusbar.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main-window.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/preferences-dialog.Po@am__quote@
@@ -435,11 +595,231 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
 
+librookie_la-rookie-app.lo: rookie-app.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-rookie-app.lo -MD -MP -MF $(DEPDIR)/librookie_la-rookie-app.Tpo -c -o librookie_la-rookie-app.lo `test -f 'rookie-app.c' || echo '$(srcdir)/'`rookie-app.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-rookie-app.Tpo $(DEPDIR)/librookie_la-rookie-app.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rookie-app.c' object='librookie_la-rookie-app.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-rookie-app.lo `test -f 'rookie-app.c' || echo '$(srcdir)/'`rookie-app.c
+
+librookie_la-g-downloadable.lo: g-downloadable.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-g-downloadable.lo -MD -MP -MF $(DEPDIR)/librookie_la-g-downloadable.Tpo -c -o librookie_la-g-downloadable.lo `test -f 'g-downloadable.c' || echo '$(srcdir)/'`g-downloadable.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-g-downloadable.Tpo $(DEPDIR)/librookie_la-g-downloadable.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='g-downloadable.c' object='librookie_la-g-downloadable.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-g-downloadable.lo `test -f 'g-downloadable.c' || echo '$(srcdir)/'`g-downloadable.c
+
+librookie_la-g-download-list.lo: g-download-list.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-g-download-list.lo -MD -MP -MF $(DEPDIR)/librookie_la-g-download-list.Tpo -c -o librookie_la-g-download-list.lo `test -f 'g-download-list.c' || echo '$(srcdir)/'`g-download-list.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-g-download-list.Tpo $(DEPDIR)/librookie_la-g-download-list.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='g-download-list.c' object='librookie_la-g-download-list.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-g-download-list.lo `test -f 'g-download-list.c' || echo '$(srcdir)/'`g-download-list.c
+
+librookie_la-g-download-list-controller.lo: g-download-list-controller.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-g-download-list-controller.lo -MD -MP -MF $(DEPDIR)/librookie_la-g-download-list-controller.Tpo -c -o librookie_la-g-download-list-controller.lo `test -f 'g-download-list-controller.c' || echo '$(srcdir)/'`g-download-list-controller.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-g-download-list-controller.Tpo $(DEPDIR)/librookie_la-g-download-list-controller.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='g-download-list-controller.c' object='librookie_la-g-download-list-controller.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-g-download-list-controller.lo `test -f 'g-download-list-controller.c' || echo '$(srcdir)/'`g-download-list-controller.c
+
+librookie_la-g-downloadable-activatable.lo: g-downloadable-activatable.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-g-downloadable-activatable.lo -MD -MP -MF $(DEPDIR)/librookie_la-g-downloadable-activatable.Tpo -c -o librookie_la-g-downloadable-activatable.lo `test -f 'g-downloadable-activatable.c' || echo '$(srcdir)/'`g-downloadable-activatable.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-g-downloadable-activatable.Tpo $(DEPDIR)/librookie_la-g-downloadable-activatable.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='g-downloadable-activatable.c' object='librookie_la-g-downloadable-activatable.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-g-downloadable-activatable.lo `test -f 'g-downloadable-activatable.c' || echo '$(srcdir)/'`g-downloadable-activatable.c
+
+librookie_la-rookie-debug.lo: rookie-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-rookie-debug.lo -MD -MP -MF $(DEPDIR)/librookie_la-rookie-debug.Tpo -c -o librookie_la-rookie-debug.lo `test -f 'rookie-debug.c' || echo '$(srcdir)/'`rookie-debug.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-rookie-debug.Tpo $(DEPDIR)/librookie_la-rookie-debug.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rookie-debug.c' object='librookie_la-rookie-debug.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-rookie-debug.lo `test -f 'rookie-debug.c' || echo '$(srcdir)/'`rookie-debug.c
+
+librookie_la-rookie-settings.lo: rookie-settings.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-rookie-settings.lo -MD -MP -MF $(DEPDIR)/librookie_la-rookie-settings.Tpo -c -o librookie_la-rookie-settings.lo `test -f 'rookie-settings.c' || echo '$(srcdir)/'`rookie-settings.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-rookie-settings.Tpo $(DEPDIR)/librookie_la-rookie-settings.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rookie-settings.c' object='librookie_la-rookie-settings.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-rookie-settings.lo `test -f 'rookie-settings.c' || echo '$(srcdir)/'`rookie-settings.c
+
+librookie_la-rookie-services.lo: rookie-services.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-rookie-services.lo -MD -MP -MF $(DEPDIR)/librookie_la-rookie-services.Tpo -c -o librookie_la-rookie-services.lo `test -f 'rookie-services.c' || echo '$(srcdir)/'`rookie-services.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-rookie-services.Tpo $(DEPDIR)/librookie_la-rookie-services.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rookie-services.c' object='librookie_la-rookie-services.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-rookie-services.lo `test -f 'rookie-services.c' || echo '$(srcdir)/'`rookie-services.c
+
+librookie_la-rookie-misc.lo: rookie-misc.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-rookie-misc.lo -MD -MP -MF $(DEPDIR)/librookie_la-rookie-misc.Tpo -c -o librookie_la-rookie-misc.lo `test -f 'rookie-misc.c' || echo '$(srcdir)/'`rookie-misc.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-rookie-misc.Tpo $(DEPDIR)/librookie_la-rookie-misc.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='rookie-misc.c' object='librookie_la-rookie-misc.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-rookie-misc.lo `test -f 'rookie-misc.c' || echo '$(srcdir)/'`rookie-misc.c
+
+librookie_la-categories.lo: categories.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-categories.lo -MD -MP -MF $(DEPDIR)/librookie_la-categories.Tpo -c -o librookie_la-categories.lo `test -f 'categories.c' || echo '$(srcdir)/'`categories.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-categories.Tpo $(DEPDIR)/librookie_la-categories.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='categories.c' object='librookie_la-categories.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-categories.lo `test -f 'categories.c' || echo '$(srcdir)/'`categories.c
+
+librookie_la-gio-download.lo: gio-download.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-gio-download.lo -MD -MP -MF $(DEPDIR)/librookie_la-gio-download.Tpo -c -o librookie_la-gio-download.lo `test -f 'gio-download.c' || echo '$(srcdir)/'`gio-download.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-gio-download.Tpo $(DEPDIR)/librookie_la-gio-download.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='gio-download.c' object='librookie_la-gio-download.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-gio-download.lo `test -f 'gio-download.c' || echo '$(srcdir)/'`gio-download.c
+
+librookie_la-g-downloadable-backends.lo: g-downloadable-backends.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-g-downloadable-backends.lo -MD -MP -MF $(DEPDIR)/librookie_la-g-downloadable-backends.Tpo -c -o librookie_la-g-downloadable-backends.lo `test -f 'g-downloadable-backends.c' || echo '$(srcdir)/'`g-downloadable-backends.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-g-downloadable-backends.Tpo $(DEPDIR)/librookie_la-g-downloadable-backends.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='g-downloadable-backends.c' object='librookie_la-g-downloadable-backends.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-g-downloadable-backends.lo `test -f 'g-downloadable-backends.c' || echo '$(srcdir)/'`g-downloadable-backends.c
+
+librookie_la-statusbar.lo: statusbar.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-statusbar.lo -MD -MP -MF $(DEPDIR)/librookie_la-statusbar.Tpo -c -o librookie_la-statusbar.lo `test -f 'statusbar.c' || echo '$(srcdir)/'`statusbar.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-statusbar.Tpo $(DEPDIR)/librookie_la-statusbar.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='statusbar.c' object='librookie_la-statusbar.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-statusbar.lo `test -f 'statusbar.c' || echo '$(srcdir)/'`statusbar.c
+
+librookie_la-main-window.lo: main-window.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-main-window.lo -MD -MP -MF $(DEPDIR)/librookie_la-main-window.Tpo -c -o librookie_la-main-window.lo `test -f 'main-window.c' || echo '$(srcdir)/'`main-window.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-main-window.Tpo $(DEPDIR)/librookie_la-main-window.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='main-window.c' object='librookie_la-main-window.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-main-window.lo `test -f 'main-window.c' || echo '$(srcdir)/'`main-window.c
+
+librookie_la-sidepane.lo: sidepane.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-sidepane.lo -MD -MP -MF $(DEPDIR)/librookie_la-sidepane.Tpo -c -o librookie_la-sidepane.lo `test -f 'sidepane.c' || echo '$(srcdir)/'`sidepane.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-sidepane.Tpo $(DEPDIR)/librookie_la-sidepane.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='sidepane.c' object='librookie_la-sidepane.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-sidepane.lo `test -f 'sidepane.c' || echo '$(srcdir)/'`sidepane.c
+
+librookie_la-bottom-pane.lo: bottom-pane.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-bottom-pane.lo -MD -MP -MF $(DEPDIR)/librookie_la-bottom-pane.Tpo -c -o librookie_la-bottom-pane.lo `test -f 'bottom-pane.c' || echo '$(srcdir)/'`bottom-pane.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-bottom-pane.Tpo $(DEPDIR)/librookie_la-bottom-pane.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='bottom-pane.c' object='librookie_la-bottom-pane.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-bottom-pane.lo `test -f 'bottom-pane.c' || echo '$(srcdir)/'`bottom-pane.c
+
+librookie_la-download-dialog.lo: download-dialog.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-download-dialog.lo -MD -MP -MF $(DEPDIR)/librookie_la-download-dialog.Tpo -c -o librookie_la-download-dialog.lo `test -f 'download-dialog.c' || echo '$(srcdir)/'`download-dialog.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-download-dialog.Tpo $(DEPDIR)/librookie_la-download-dialog.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='download-dialog.c' object='librookie_la-download-dialog.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-download-dialog.lo `test -f 'download-dialog.c' || echo '$(srcdir)/'`download-dialog.c
+
+librookie_la-category-dialog.lo: category-dialog.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-category-dialog.lo -MD -MP -MF $(DEPDIR)/librookie_la-category-dialog.Tpo -c -o librookie_la-category-dialog.lo `test -f 'category-dialog.c' || echo '$(srcdir)/'`category-dialog.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-category-dialog.Tpo $(DEPDIR)/librookie_la-category-dialog.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='category-dialog.c' object='librookie_la-category-dialog.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-category-dialog.lo `test -f 'category-dialog.c' || echo '$(srcdir)/'`category-dialog.c
+
+librookie_la-preferences-dialog.lo: preferences-dialog.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-preferences-dialog.lo -MD -MP -MF $(DEPDIR)/librookie_la-preferences-dialog.Tpo -c -o librookie_la-preferences-dialog.lo `test -f 'preferences-dialog.c' || echo '$(srcdir)/'`preferences-dialog.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-preferences-dialog.Tpo $(DEPDIR)/librookie_la-preferences-dialog.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='preferences-dialog.c' object='librookie_la-preferences-dialog.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-preferences-dialog.lo `test -f 'preferences-dialog.c' || echo '$(srcdir)/'`preferences-dialog.c
+
+librookie_la-soup-download.lo: soup-download.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -MT librookie_la-soup-download.lo -MD -MP -MF $(DEPDIR)/librookie_la-soup-download.Tpo -c -o librookie_la-soup-download.lo `test -f 'soup-download.c' || echo '$(srcdir)/'`soup-download.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/librookie_la-soup-download.Tpo $(DEPDIR)/librookie_la-soup-download.Plo
+@am__fastdepCC_FALSE@	$(AM_V_CC) @AM_BACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='soup-download.c' object='librookie_la-soup-download.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(librookie_la_CPPFLAGS) $(CPPFLAGS) $(librookie_la_CFLAGS) $(CFLAGS) -c -o librookie_la-soup-download.lo `test -f 'soup-download.c' || echo '$(srcdir)/'`soup-download.c
+
 mostlyclean-libtool:
 	-rm -f *.lo
 
 clean-libtool:
 	-rm -rf .libs _libs
+install-girDATA: $(gir_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(girdir)" || $(MKDIR_P) "$(DESTDIR)$(girdir)"
+	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(girdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(girdir)" || exit $$?; \
+	done
+
+uninstall-girDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(girdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(girdir)" && rm -f $$files
+install-headerDATA: $(header_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(headerdir)" || $(MKDIR_P) "$(DESTDIR)$(headerdir)"
+	@list='$(header_DATA)'; test -n "$(headerdir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(headerdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(headerdir)" || exit $$?; \
+	done
+
+uninstall-headerDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(header_DATA)'; test -n "$(headerdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(headerdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(headerdir)" && rm -f $$files
+install-typelibDATA: $(typelib_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(typelibdir)" || $(MKDIR_P) "$(DESTDIR)$(typelibdir)"
+	@list='$(typelib_DATA)'; test -n "$(typelibdir)" || list=; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(typelibdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(typelibdir)" || exit $$?; \
+	done
+
+uninstall-typelibDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(typelib_DATA)'; test -n "$(typelibdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$files" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(typelibdir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(typelibdir)" && rm -f $$files
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -525,9 +905,11 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(DATA)
+install-binPROGRAMS: install-libLTLIBRARIES
+
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(headerdir)" "$(DESTDIR)$(typelibdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -547,6 +929,7 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
@@ -557,7 +940,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \
+	clean-libtool mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -577,13 +961,14 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-girDATA install-headerDATA \
+	install-typelibDATA
 
 install-dvi: install-dvi-am
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS
+install-exec-am: install-binPROGRAMS install-libLTLIBRARIES
 
 install-html: install-html-am
 
@@ -623,27 +1008,40 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am: uninstall-binPROGRAMS uninstall-girDATA \
+	uninstall-headerDATA uninstall-libLTLIBRARIES \
+	uninstall-typelibDATA
 
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
-	clean-generic clean-libtool ctags distclean distclean-compile \
-	distclean-generic distclean-libtool distclean-tags distdir dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-binPROGRAMS install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
+	clean-generic clean-libLTLIBRARIES clean-libtool ctags \
+	distclean distclean-compile distclean-generic \
+	distclean-libtool distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-binPROGRAMS \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-girDATA \
+	install-headerDATA install-html install-html-am install-info \
+	install-info-am install-libLTLIBRARIES install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	install-typelibDATA installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
 	pdf pdf-am ps ps-am tags uninstall uninstall-am \
-	uninstall-binPROGRAMS
+	uninstall-binPROGRAMS uninstall-girDATA uninstall-headerDATA \
+	uninstall-libLTLIBRARIES uninstall-typelibDATA
 
 
 check-syntax:
 	$(COMPILE) -o /dev/null -S ${CHK_SOURCES}
+
+# Introspection
+-include $(INTROSPECTION_MAKEFILE)
+
+# NOTE: This should change with $(Rookie_API_VERSION)
+@HAVE_INTROSPECTION_TRUE@Rookie-1.0.gir: librookie.la
+
+-include $(top_srcdir)/git.mk
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

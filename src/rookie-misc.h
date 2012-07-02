@@ -2,17 +2,17 @@
 /*
  * rookie-misc.h
  * Copyright (C) Thura Hlaing 2010 <trhura@gmail.com>
- * 
+ *
  * rookie is free software: you can redistribute it and/or modify it
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * rookie is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -35,6 +35,7 @@ gchar*			rookie_misc_get_category_file_path ();
 GFile*			rookie_misc_get_log_file		(guint uid);
 gchar*			rookie_misc_expand_path			(const gchar *path);
 gchar*			rookie_misc_get_ui_path			(const gchar *name);
+gchar *			rookie_misc_get_plugins_dir		();
 
 void			rookie_misc_quit ();
 void			rookie_misc_add_download		(const gchar * url);

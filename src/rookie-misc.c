@@ -43,6 +43,20 @@ rookie_misc_get_ui_path (const gchar * name)
 		return g_build_filename (env, name, NULL);
 }
 
+gchar*
+rookie_misc_get_plugins_dir ()
+{
+	const gchar *env = g_getenv ("ROOKIE_PLUGINS_DIR");
+
+	if (env == NULL)
+		return g_build_filename (g_get_user_data_dir (),
+								 "rookie",
+								 "plugins",
+								 NULL);
+	else
+		return g_build_filename (env, "plugins", NULL);
+}
+
 static gchar*
 get_rookie_user_data_dir ()
 {

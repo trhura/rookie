@@ -370,7 +370,7 @@ GtkActionGroup * create_action_group ()
 	};
 
 	GtkActionEntry a_category = {
-		"a_category", NULL, _("Manage Categories"),
+		"a_category", NULL, _("Manage _Categories"),
 		NULL, _("Manange categories"), G_CALLBACK(on_category)
 	};
 

@@ -7,18 +7,20 @@
  * under the terms of the GNU General Public License as published by the
  * Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * rookie is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "notify.h"
-#include "config.h"
+#include <notify.h>
+#include <config.h>
+#include <libpeas/peas.h>
+
 #include "categories.h"
 #include "rookie-app.h"
 #include "rookie-services.h"
@@ -81,8 +83,22 @@ rookie_app_run (RookieApp *application,
 	}
 
 	g_downloadable_backends_init (); /* Must be before categories_init */
-	categories_init ();
 	rookie_settings_init ();
+	categories_init ();
+
+	PeasEngine* engine = peas_engine_get_default ();
+
+	gchar* plugin_dir  = rookie_misc_get_plugins_dir ();
+	peas_engine_add_search_path (engine, plugin_dir, plugin_dir);
+	g_free (plugin_dir);
+
+	plugin_dir  = g_build_filename (PACKAGE_DATA_DIR, "rookie", "plugins", NULL);
+	peas_engine_add_search_path (engine, plugin_dir, plugin_dir);
+	g_free (plugin_dir);
+
+	peas_engine_enable_loader (engine, "gjs");
+	peas_engine_enable_loader (engine, "python");
+	peas_engine_enable_loader (engine, "seed");
 
 	create_main_window ();
 
@@ -90,9 +106,7 @@ rookie_app_run (RookieApp *application,
 		show_main_window ();
 
 	notify_init (PACKAGE_NAME);
-	gdk_threads_enter ();
 	gtk_main ();
-	gdk_threads_leave ();
 
 	return status;
 }

@@ -5,6 +5,10 @@ m4_define(rookie_minor_version,  2)
 m4_define(rookie_micro_version,  6)
 m4_define(rookie_version, [rookie_major_version.rookie_minor_version.rookie_micro_version])
 
+m4_define(totem_api_version_major, 1)
+m4_define(totem_api_version_minor, 0)
+TOTEM_API_VERSION=totem_api_version_major.totem_api_version_minor
+
 AC_INIT(rookie, [rookie_version],[http://launchpad.net/rookie],[rookie])
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
@@ -34,6 +38,15 @@ LT_INIT([disable-static])
 
 AC_CHECK_FUNCS(fsync)
 
+# Introspection
+GOBJECT_INTROSPECTION_CHECK([1.30.0])
+if test "$found_introspection" = "yes"; then
+   enable_introspection=yes
+   AC_DEFINE([ENABLE_INTROSPECTION], [1], [Define to enable GObject Introspection])
+else
+    enable_introspection=no
+fi
+
 dnl ###########################################################################
 dnl Dependencies
 dnl ###########################################################################
@@ -42,6 +55,8 @@ PKG_CHECK_MODULES(ROOKIE, [
     gtk+-3.0
     libsoup-2.4
     libnotify
+    libpeas-1.0
+    libpeas-gtk-1.0
 ])
 
 dnl ###########################################################################

@@ -67,7 +67,7 @@ struct _GDownloadableClass
 struct _GDownloadable
 {
 	GObject parent_instance;
-	GDownloadablePrivate * priv;
+	GDownloadablePrivate *priv;
 };
 
 GType g_downloadable_get_type (void) G_GNUC_CONST;

@@ -21,6 +21,7 @@
 #include "g-downloadable.h"
 #include "rookie-misc.h"
 #include "g-downloadable-private.h"
+#include "g-downloadable-activatable.h"
 
 #include "gio-download.h"  //FIXME: remove
 
@@ -57,11 +58,46 @@ static void on_download_progressed (GDownloadable *download,
 									gssize downloaded);
 
 static void
+extension_added (PeasExtensionSet	*extensions,
+				 PeasPluginInfo		*info,
+				 PeasExtension		*exten,
+				 GDownloadable		*downloadable)
+{
+	g_downloadable_activatable_activate (G_DOWNLOADABLE_ACTIVATABLE (exten));
+}
+
+static void
+extension_removed (PeasExtensionSet *extensions,
+				   PeasPluginInfo   *info,
+				   PeasExtension    *exten,
+				   GDownloadable	*app)
+{
+	g_downloadable_activatable_deactivate (G_DOWNLOADABLE_ACTIVATABLE (exten));
+}
+
+static void
 g_downloadable_init (GDownloadable *object)
 {
 	/* TODO: Add initialization code here */
 	object->priv = G_DOWNLOADABLE_PRIVATE (object);
 	object->priv->timer = g_timer_new ();
+	object->priv->extensions = peas_extension_set_new (PEAS_ENGINE (peas_engine_get_default ()),
+													  G_DOWNLOADABLE_TYPE_ACTIVATABLE,
+													  "downloadable", object,
+													  NULL);
+	g_signal_connect (object->priv->extensions,
+					  "extension-added",
+					  G_CALLBACK (extension_added),
+					  object);
+
+	g_signal_connect (object->priv->extensions,
+					  "extension-removed",
+					  G_CALLBACK (extension_removed),
+					  object);
+
+	peas_extension_set_foreach (object->priv->extensions,
+								(PeasExtensionSetForeachFunc) extension_added,
+								object);
 }
 
 static void
@@ -72,6 +108,7 @@ g_downloadable_finalize (GObject *object)
 
 	g_object_unref (download->priv->local_file);
 	g_object_unref (download->priv->remote_file);
+	g_clear_object (download->priv->extensions);
 	g_object_unref (download->priv->log_file);
 	g_free (download->priv->url);
 	g_free (download->priv->icon_name);
